@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Furima</title>
+  <link rel="stylesheet" th:href="@{/css/application.css}">
+  <script th:src="@{/js/item_price.js}" defer></script>
+  <script th:src="@{/js/preview.js}" defer></script>
+</head>
+<body>
+  <div th:replace="~{shared/header}"></div>
+  <div th:replace="${content}"></div>
+  <div th:replace="~{shared/footer}"></div>
+</body>
+</html>

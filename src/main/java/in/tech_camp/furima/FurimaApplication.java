@@ -6,8 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FurimaApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FurimaApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FurimaApplication.class, args);
+    }
 
 }
+

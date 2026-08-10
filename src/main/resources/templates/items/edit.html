@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>商品編集 - Furima</title>
+  <!-- cssは商品出品のものを併用しています: /css/items/new.css -->
+  <link rel="stylesheet" href="/css/application.css">
+  <link rel="stylesheet" href="/css/shared/errors.css">
+  <link rel="stylesheet" href="/css/shared/form.css">
+  <link rel="stylesheet" href="/css/items/new.css">
+</head>
+<body>
+<div class="items-sell-contents">
+  <header class="items-sell-header">
+    <a href="/"><img src="/images/furima-logo-color.png" alt="FURIMA" class="second-logo"></a>
+  </header>
+  <div class="items-sell-main">
+    <h2 class="items-sell-title">商品の情報を編集</h2>
+
+    <!-- formのactionとth:objectを設定しましょう。 -->
+    <form action="hoge" th:object="${hoge}" method="post" enctype="multipart/form-data">
+      <!-- エラーメッセージを表示できるようにしましょう。 -->
+
+      <!-- 出品画像 -->
+      <div class="img-upload">
+        <div class="weight-bold-text">出品画像 <span class="indispensable">必須</span></div>
+        <div class="click-upload">
+          <p>クリックしてファイルをアップロード</p>
+          <input type="file" name="hoge" id="item-image" multiple accept="image/*">
+        </div>
+        <div id="image-list"></div>
+      </div>
+
+      <!-- 商品名と商品説明 -->
+      <div class="new-items">
+        <div class="weight-bold-text">商品名 <span class="indispensable">必須</span></div>
+        <textarea th:field="*{hoge}" class="items-text" maxlength="40"></textarea>
+        <div class="items-explain">
+          <div class="weight-bold-text">商品の説明 <span class="indispensable">必須</span></div>
+          <textarea th:field="*{hoge}" class="items-text" rows="7" maxlength="1000"></textarea>
+        </div>
+      </div>
+
+      <!-- 商品の詳細 -->
+      <div class="items-detail">
+        <div class="weight-bold-text">商品の詳細</div>
+        <div class="form">
+          <div class="weight-bold-text">カテゴリー <span class="indispensable">必須</span></div>
+          <select th:field="*{hoge}" class="select-box">
+            <option th:each="hoge : ${hoge}" th:value="${hoge}" th:text="${hoge}"></option>
+          </select>
+          <div class="weight-bold-text">商品の状態 <span class="indispensable">必須</span></div>
+          <select th:field="*{hoge}" class="select-box">
+            <option th:each="hoge : ${hoge}" th:value="${hoge}" th:text="${hoge}"></option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 配送について -->
+      <div class="items-detail">
+        <div class="weight-bold-text">配送について</div>
+        <div class="form">
+          <div class="weight-bold-text">配送料の負担 <span class="indispensable">必須</span></div>
+          <select th:field="*{hoge}" class="select-box">
+            <option th:each="hoge : ${hoge}" th:value="${hoge}" th:text="${hoge}"></option>
+          </select>
+          <div class="weight-bold-text">発送元の地域 <span class="indispensable">必須</span></div>
+          <select th:field="*{hoge}" class="select-box">
+            <option th:each="hoge : ${hoge}" th:value="${hoge}" th:text="${hoge}"></option>
+          </select>
+          <div class="weight-bold-text">発送までの日数 <span class="indispensable">必須</span></div>
+          <select th:field="*{hoge}" class="select-box">
+            <option th:each="hoge : ${hoge}" th:value="${hoge}" th:text="${hoge}"></option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 販売価格 -->
+      <div class="sell-price">
+        <div class="weight-bold-text question-text">
+          <span>販売価格（¥300〜9,999,999）</span>
+        </div>
+        <div>
+          <div class="price-content">
+            <div class="price-text">
+              <span>価格</span>
+              <span class="indispensable">必須</span>
+            </div>
+            <span class="sell-yen">¥</span>
+            <input th:field="*{hoge}" type="text" class="price-input" id="item-price" placeholder="例）300">
+          </div>
+          <div class="price-content">
+            <span>販売手数料 (10%)</span>
+            <span><span id="add-tax-price"></span>円</span>
+          </div>
+          <div class="price-content">
+            <span>販売利益</span>
+            <span><span id="profit"></span>円</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sell-btn-contents">
+        <button type="submit" class="sell-btn">変更する</button>
+        <a href="#" class="back-btn">もどる</a>
+      </div>
+    </form>
+  </div>
+
+  <div th:replace="~{shared/footer :: items-footer}"></div>
+</div>
+<script src="/js/item_price.js"></script>
+</body>
+</html>
