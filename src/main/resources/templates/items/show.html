@@ -36,13 +36,15 @@
       </div>
 
       <!-- ログインしているユーザーと出品しているユーザーが、同一人物の場合と同一人物ではない場合で、処理を分けましょう -->
+      <div
+        th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getId() == item.user.id}">
 
-      <a href="#" class="item-red-btn">商品の編集</a>
-      <p class="or-text">or</p>
-      <form action="hoge" method="post">
-        <button type="submit" class="item-destroy">削除</button>
-      </form>
-
+        <a href="#" class="item-red-btn">商品の編集</a>
+        <p class="or-text">or</p>
+        <form action="@{/items/{id}/delete(id=${item.id})}" method="post">
+          <button type="submit" class="item-destroy">削除</button>
+        </form>
+      </div>
       <!-- 商品が売れていない場合はこちらを表示しましょう -->
       <a href="#" class="item-red-btn">購入画面に進む</a>
 
@@ -114,4 +116,5 @@
 
   <div th:replace="~{shared/footer :: main-footer}"></div>
 </body>
+
 </html>
