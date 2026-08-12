@@ -41,7 +41,7 @@
 
         <a href="#" class="item-red-btn">商品の編集</a>
         <p class="or-text">or</p>
-        <form action="@{/items/{id}/delete(id=${item.id})}" method="post">
+        <form th:action="@{/items/{id}/delete(id=${item.id})}" method="post">
           <button type="submit" class="item-destroy">削除</button>
         </form>
       </div>
