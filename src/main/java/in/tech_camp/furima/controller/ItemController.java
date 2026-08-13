@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import in.tech_camp.furima.custom_user.CustomUserDetails;
 import in.tech_camp.furima.dto.ItemEditDto;
 import in.tech_camp.furima.exception.ForbiddenException;
 import in.tech_camp.furima.exception.ResourceNotFoundException;
@@ -31,8 +32,9 @@ public class ItemController {
       @AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
 
     try {
-      ItemEditDto itemEditDto = itemService.getItemForEdit(id, userDetails.getId());
-      model.addAttribute("itemForm", itemEditDto);
+      // ItemEditDto itemEditDto = itemService.getItemForEdit(id,
+      // userDetails.getId());
+      // model.addAttribute("itemForm", itemEditDto);
       return "items/edit";
     } catch (ResourceNotFoundException | ForbiddenException e) {
       return "redirect:/";
@@ -53,7 +55,7 @@ public class ItemController {
     }
 
     try {
-      itemService.updateItem(id, itemEditDto, image, userDetails.getId());
+      // itemService.updateItem(id, itemEditDto, image, userDetails.getId());
       return "redirect:/items/" + id;
     } catch (ResourceNotFoundException | ForbiddenException e) {
       return "redirect:/";
