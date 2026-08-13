@@ -12,6 +12,6 @@ public class ItemQueryResult {
   private String name;
   private Long price;
   private int deliveryFee;
-  private Long productId;
+  private Long itemId;
 
 }
