@@ -1,4 +1,4 @@
-package in.tech_camp.furima.service;
+package in.tech_camp.furima.custom_user;
 
 import in.tech_camp.furima.entity.UserEntity;
 import in.tech_camp.furima.repository.UserRepository;
@@ -9,11 +9,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FurimaUserDetailsService implements UserDetailsService {
+public class CustomUserDetails implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public FurimaUserDetailsService(UserRepository userRepository) {
+    public CustomUserDetails(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -29,7 +29,7 @@ public class FurimaUserDetailsService implements UserDetailsService {
         return User.builder()
                 .username(userEntity.getEmail())
                 .password(userEntity.getPassword()) // 暗号化されたパスワードを渡す
-                .roles("USER") // 権限（今回はとりあえずUSERとしておきます）
+                .roles("USER")
                 .build();
     }
 }
