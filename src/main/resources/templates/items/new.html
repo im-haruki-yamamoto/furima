@@ -16,16 +16,30 @@
   <div class="items-sell-main">
     <h2 class="items-sell-title">商品の情報を入力</h2>
 
-    <!-- formのactionとth:objectを設定しましょう。 -->
-    <form action="hoge" th:object="${hoge}" method="post" enctype="multipart/form-data">
-      <!-- エラーメッセージを表示できるようにしましょう。 -->
+    <!-- 修正: th:object="${productForm}" を th:object="${itemForm}" に変更しました -->
+    <form th:action="@{/items}" th:object="${itemForm}" method="post" enctype="multipart/form-data">
+      
+      <!-- エラーメッセージ -->
+      <div class="error-messages" th:if="${#fields.hasAnyErrors()}">
+        <ul style="color: red; list-style: none; padding-left: 0; text-align: center; margin-bottom: 20px;">
+          <li th:each="err : ${#fields.errors('img')}" th:text="${err}"></li>
+          <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+          <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+          <li th:each="err : ${#fields.errors('category')}" th:text="${err}"></li>
+          <li th:each="err : ${#fields.errors('condition')}" th:text="${err}"></li>
+          <li th:each="err : ${#fields.errors('deliveryFee')}" th:text="${err}"></li>
+          <li th:each="err : ${#fields.errors('prefecture')}" th:text="${err}"></li>
+          <li th:each="err : ${#fields.errors('untilDelivery')}" th:text="${err}"></li>
+          <li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>
+        </ul>
+      </div>
 
       <!-- 出品画像 -->
       <div class="img-upload">
         <div class="weight-bold-text">出品画像 <span class="indispensable">必須</span></div>
         <div class="click-upload">
           <p>クリックしてファイルをアップロード</p>
-          <input type="file" name="hoge" id="item-image" multiple accept="image/*">
+          <input type="file" name="img" id="item-image" multiple accept="image/*">
         </div>
         <div id="image-list"></div>
       </div>
@@ -33,11 +47,11 @@
       <!-- 商品名と商品説明 -->
       <div class="new-items">
         <div class="weight-bold-text">商品名 <span class="indispensable">必須</span></div>
-        <textarea th:field="*{hoge}" class="items-text" id="item-name"
+        <textarea th:field="*{name}" class="items-text" id="item-name"
                   placeholder="商品名（必須 40文字まで)" maxlength="40"></textarea>
         <div class="items-explain">
           <div class="weight-bold-text">商品の説明 <span class="indispensable">必須</span></div>
-          <textarea th:field="*{hoge}" class="items-text" id="item-info"
+          <textarea th:field="*{description}" class="items-text" id="item-info"
                     placeholder="商品の説明（必須 1,000文字まで）" rows="7" maxlength="1000"></textarea>
         </div>
       </div>
@@ -47,12 +61,14 @@
         <div class="weight-bold-text">商品の詳細</div>
         <div class="form">
           <div class="weight-bold-text">カテゴリー <span class="indispensable">必須</span></div>
-          <select th:field="*{hoge}" class="select-box" id="item-category">
-            <option th:each="hoge : ${hoge}" th:value="${hoge}" th:text="${hoge}"></option>
+          <select th:field="*{category}" class="select-box" id="item-category">
+            <option value="">---</option>
+            <option th:each="cat : ${categories}" th:value="${cat.code}" th:text="${cat.displayName}"></option>
           </select>
           <div class="weight-bold-text">商品の状態 <span class="indispensable">必須</span></div>
-          <select th:field="*{hoge}" class="select-box" id="item-sales-status">
-            <option th:each="hoge : ${hoge}" th:value="${hoge}" th:text="${hoge}"></option>
+          <select th:field="*{condition}" class="select-box" id="item-sales-status">
+            <option value="">---</option>
+            <option th:each="cond : ${conditions}" th:value="${cond.code}" th:text="${cond.displayName}"></option>
           </select>
         </div>
       </div>
@@ -62,16 +78,19 @@
         <div class="weight-bold-text">配送について</div>
         <div class="form">
           <div class="weight-bold-text">配送料の負担 <span class="indispensable">必須</span></div>
-          <select th:field="*{hoge}" class="select-box" id="item-shipping-fee-status">
-            <option th:each="hoge : ${hoge}" th:value="${hoge}" th:text="${hoge}"></option>
+          <select th:field="*{deliveryFee}" class="select-box" id="item-shipping-fee-status">
+            <option value="">---</option>
+            <option th:each="fee : ${deliveryFees}" th:value="${fee.code}" th:text="${fee.label}"></option>
           </select>
           <div class="weight-bold-text">発送元の地域 <span class="indispensable">必須</span></div>
-          <select th:field="*{hoge}" class="select-box" id="item-prefecture">
-            <option th:each="hoge : ${hoge}" th:value="${hoge}" th:text="${hoge}"></option>
+          <select th:field="*{prefecture}" class="select-box" id="item-prefecture">
+            <option value="">---</option>
+            <option th:each="pref : ${prefectures}" th:value="${pref.code}" th:text="${pref.label}"></option>
           </select>
           <div class="weight-bold-text">発送までの日数 <span class="indispensable">必須</span></div>
-          <select th:field="*{hoge}" class="select-box" id="item-scheduled-delivery">
-            <option th:each="hoge : ${hoge}" th:value="${hoge}" th:text="${hoge}"></option>
+          <select th:field="*{untilDelivery}" class="select-box" id="item-scheduled-delivery">
+            <option value="">---</option>
+            <option th:each="del : ${untilDeliveries}" th:value="${del.code}" th:text="${del.displayName}"></option>
           </select>
         </div>
       </div>
@@ -88,7 +107,7 @@
               <span class="indispensable">必須</span>
             </div>
             <span class="sell-yen">¥</span>
-            <input th:field="*{hoge}" type="text" class="price-input" id="item-price" placeholder="例）300">
+            <input th:field="*{price}" type="text" class="price-input" id="item-price" placeholder="例）300">
           </div>
           <div class="price-content">
             <span>販売手数料 (10%)</span>
