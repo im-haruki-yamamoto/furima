@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import java.time.LocalDate;
+import in.tech_camp.furima.dto.UserDto;
 import lombok.Data;
 
 @Data
@@ -49,4 +50,18 @@ public class RegisterForm {
 
     @NotNull(message = "入力してください")
     private Integer birthDay;
+
+    public UserDto toDto() {
+        UserDto dto = new UserDto();
+        dto.setNickname(this.nickname);
+        dto.setEmail(this.email);
+        dto.setPassword(this.password);
+        dto.setLastName(this.lastName);
+        dto.setFirstName(this.firstName);
+        dto.setLastNameKana(this.lastNameKana);
+        dto.setFirstNameKana(this.firstNameKana);
+        // 年・月・日を LocalDate にまとめる
+        dto.setBirthDate(LocalDate.of(this.birthYear, this.birthMonth, this.birthDay));
+        return dto;
+    }
 }
