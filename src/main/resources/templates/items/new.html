@@ -16,7 +16,6 @@
   <div class="items-sell-main">
     <h2 class="items-sell-title">商品の情報を入力</h2>
 
-    <!-- 修正: th:object="${productForm}" を th:object="${itemForm}" に変更しました -->
     <form th:action="@{/items}" th:object="${itemForm}" method="post" enctype="multipart/form-data">
       
       <!-- エラーメッセージ -->

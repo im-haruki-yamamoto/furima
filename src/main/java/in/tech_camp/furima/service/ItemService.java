@@ -37,7 +37,7 @@ public class ItemService {
           dto.setImg(item.getImg());
           dto.setName(item.getName());
           dto.setPrice(item.getPrice());
-          dto.setSoldout(item.getProductId() != null);
+          dto.setSoldout(item.getItemId() != null);
           dto.setDeliveryFee(DeliveryFeeType.fromCode(item.getDeliveryFee()).getLabel());
           return dto;
         }).collect(Collectors.toList());

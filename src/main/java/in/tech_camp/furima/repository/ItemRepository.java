@@ -16,7 +16,7 @@ public interface ItemRepository {
     // 商品出品機能
   @Insert("INSERT INTO items (user_id, name, description, category, condition, delivery_fee, prefecture, until_delivery, price, img) VALUES (#{userId}, #{name}, #{description}, #{category}, #{condition}, #{deliveryFee}, #{prefecture}, #{untilDelivery}, #{price}, #{img})")
   @Options(useGeneratedKeys = true, keyProperty = "id")
-  void insert(ItemEntity product);
+  void insert(ItemEntity item);
 
   // 商品一覧表示機能
   @Select("""

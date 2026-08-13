@@ -29,7 +29,7 @@ public class ItemController {
 
     // 商品一覧表示
   @GetMapping({ "/", "", "items" })
-  public String showAllProduct(Model model) {
+  public String showAllItem(Model model) {
     model.addAttribute("items", itemService.allItem());
     return "items/index";
   }
