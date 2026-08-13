@@ -38,7 +38,7 @@ public class UserController {
                                BindingResult bindingResult,
                                Model model) {
         // パスワード一致チェック
-        if (!form.getPassword().equals(form.getPasswordConfirmation())) {
+        if (form.getPassword() != null && !form.getPassword().equals(form.getPasswordConfirmation())) {
             bindingResult.rejectValue("passwordConfirmation", "error.passwordConfirmation", "パスワードと一致しません");
         }
 

@@ -42,13 +42,13 @@ public class RegisterForm {
     @Pattern(regexp = "^[ァ-ヶー]+$", message = "名(カナ)は全角カタカナで入力してください")
     private String firstNameKana;
 
-    @NotNull(message = "入力してください")
+    @NotNull(message = "誕生年を入力してください")
     private Integer birthYear;
 
-    @NotNull(message = "入力してください")
+    @NotNull(message = "誕生月を入力してください")
     private Integer birthMonth;
 
-    @NotNull(message = "入力してください")
+    @NotNull(message = "誕生日を入力してください")
     private Integer birthDay;
 
     public UserDto toDto() {
