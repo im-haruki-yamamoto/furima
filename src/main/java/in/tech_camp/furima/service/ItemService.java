@@ -1,32 +1,34 @@
 package in.tech_camp.furima.service;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import in.tech_camp.furima.dto.ItemEditDto;
 import in.tech_camp.furima.entity.ItemEntity;
 import in.tech_camp.furima.exception.ForbiddenException;
 import in.tech_camp.furima.exception.ResourceNotFoundException;
+import in.tech_camp.furima.form.ItemEditForm;
 import in.tech_camp.furima.mapper.ItemMapper;
+import in.tech_camp.furima.util.SaveImageFileUtil;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class ItemService {
-  private final ItemMapper itemRepository;
+  private final ItemMapper itemMapper;
 
 // 商品編集
   @Transactional(readOnly = true)
-  public ItemEditDto getItemForEdit(Long itemId, Long currentUserId) {
+  public ItemEditForm getItemForEdit(Long itemId, Long currentUserId) {
     ItemEntity item = findItemAndCheckOwner(itemId, currentUserId);
-    return ItemConverterService.convertToEditDto(item);
+    return ItemConverterService.convertToEditForm(item);
   }
 
   @Transactional
-  public ItemEditDto updateItem(Long itemId, ItemEditDto itemForm, MultipartFile image, Long currentUserId) {
+  public void  updateItem(Long itemId, ItemEditForm itemForm, Long currentUserId) throws IOException {
     ItemEntity item = findItemAndCheckOwner(itemId, currentUserId);
 
 
@@ -39,24 +41,26 @@ public class ItemService {
     item.setUntilDelivery(itemForm.getUntilDelivery());
     item.setPrice(itemForm.getPrice());
 
+    MultipartFile image = itemForm.getImg();
     if (image != null && !image.isEmpty()) {
       String fileName = SaveImageFileUtil.saveImageFile(image);
       item.setImg(fileName);
     }
 
-    itemRepository.update(item);
-
-    return ItemConverterService.convertToEditDto(item);
+    itemMapper.update(item);
   }
 
   private ItemEntity findItemAndCheckOwner(Long itemId, Long currentUserId) {
-    ItemEntity item = itemRepository.findById(itemId);
+    ItemEntity item = itemMapper.findById(itemId);
     if (item == null) {
       throw new ResourceNotFoundException("該当の商品が見つかりません: ID=" + itemId);
     }
     if (item.getUser() == null || !Objects.equals(item.getUser().getId(), currentUserId)) {
       throw new ForbiddenException("編集権限がありません");
     }
+    if (itemMapper.isSoldOut(itemId)) {
+    throw new ForbiddenException("売却済みの商品は編集できません");
+}
     return item;
   }
 }
