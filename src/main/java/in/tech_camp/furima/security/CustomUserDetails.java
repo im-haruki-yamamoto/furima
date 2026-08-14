@@ -1,36 +1,64 @@
 package in.tech_camp.furima.security;
 
-import org.springframework.security.core.userdetails.User;
+import java.util.Collection;
+import java.util.Collections;
+
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import in.tech_camp.furima.entity.UserEntity;
-import in.tech_camp.furima.mapper.UserMapper;
+import lombok.Data;
 
-@Service
-public class CustomUserDetails implements UserDetailsService {
+@Data
+public class CustomUserDetails implements UserDetails {
 
-  private final UserMapper userRepository;
+  private final UserEntity user;
 
-  public CustomUserDetails(UserMapper userRepository) {
-    this.userRepository = userRepository;
+  public CustomUserDetails(UserEntity user) {
+    this.user = user;
   }
 
-  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    // UserRepositoryを使って、入力されたメールアドレスからユーザーを検索
-    UserEntity userEntity = userRepository.findByEmail(email);
+  public UserEntity getUser() {
+    return user;
+  }
 
-    if (userEntity == null) {
-      throw new UsernameNotFoundException("ユーザーが見つかりません");
-    }
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return Collections.emptyList();
+  }
 
-    // 見つかったユーザー情報をSpring Securityが理解できる形式(UserDetails)に変換して返す
-    return User.builder()
-        .username(userEntity.getEmail())
-        .password(userEntity.getPassword()) // 暗号化されたパスワードを渡す
-        .roles("USER")
-        .build();
+  public Long getId() {
+    return user.getId();
+  }
+
+  @Override
+  public String getPassword() {
+    return user.getPassword();
+  }
+
+  @Override
+  public String getUsername() {
+    // フリマアプリではログインIDとしてメールアドレスを使用します
+    return user.getEmail();
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return true;
   }
 }
