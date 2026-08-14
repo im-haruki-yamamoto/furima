@@ -28,9 +28,9 @@ public String showItem(@PathVariable("itemId") Long itemId,
         
         // ログインユーザーが出品者本人かどうかを判定
         boolean isOwner = false;
-        if (userDetails != null && item.getUser() != null) {
-            isOwner = Objects.equals(item.getUser().getId(), userDetails.getId());
-        }
+        if (userDetails != null && item.getUserId() != null) {
+    isOwner = Objects.equals(item.getUserId(), userDetails.getId());
+}
 
         model.addAttribute("item", item);
         model.addAttribute("isOwner", isOwner); 

@@ -1,7 +1,6 @@
 package in.tech_camp.furima.dto;
 
 import in.tech_camp.furima.entity.ItemEntity;
-import in.tech_camp.furima.entity.UserEntity;
 import in.tech_camp.furima.enums.Category;
 import in.tech_camp.furima.enums.Condition;
 import in.tech_camp.furima.enums.DeliveryFeeType;
@@ -21,7 +20,8 @@ public class ItemResponseDto {
   private String untilDeliveryText;
   private Long price;
   private String img;
-  private UserEntity user;
+  private Long userId;
+  private String userNickname;
 
   public ItemResponseDto(ItemEntity entity) {
     this.id = entity.getId();
@@ -29,7 +29,10 @@ public class ItemResponseDto {
     this.description = entity.getDescription();
     this.price = entity.getPrice();
     this.img = entity.getImg();
-    this.user = entity.getUser();
+    if (entity.getUser() != null) {
+            this.userId = entity.getUser().getId();
+            this.userNickname = entity.getUser().getNickname();
+        }
 
     this.categoryText = Category.fromCode(entity.getCategory()).getDisplayName();
     this.deliveryFeeText = DeliveryFeeType.fromCode(entity.getDeliveryFee()).getLabel();
