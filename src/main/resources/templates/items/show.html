@@ -31,7 +31,7 @@
         <span class="item-price" th:text="'¥ ' + ${#numbers.formatInteger(item.price, 1, 'COMMA')}">
           ¥ 999,999,999
         </span>
-        <span class="item-postage" th:text="${item.getDeliveryFeeText()}">
+        <span class="item-postage" th:text="${item.deliveryFeeText}">
           配送料負担
         </span>
       </div>
@@ -65,23 +65,23 @@
           </tr>
           <tr>
             <th class="detail-item">カテゴリー</th>
-            <td class="detail-value" th:text="${item.getCategoryText()}">カテゴリー名</td>
+            <td class="detail-value" th:text="${item.categoryText}">カテゴリー名</td>
           </tr>
           <tr>
             <th class="detail-item">商品の状態</th>
-            <td class="detail-value" th:text="${item.getConditionText()}">商品の状態</td>
+            <td class="detail-value" th:text="${item.conditionText}">商品の状態</td>
           </tr>
           <tr>
             <th class="detail-item">配送料の負担</th>
-            <td class="detail-value" th:text="${item.getDeliveryFeeText()}">配送料の負担</td>
+            <td class="detail-value" th:text="${item.deliveryFeeText}">配送料の負担</td>
           </tr>
           <tr>
             <th class="detail-item">発送元の地域</th>
-            <td class="detail-value" th:text="${item.getPrefectureText()}">発送元の地域</td>
+            <td class="detail-value" th:text="${item.prefectureText}">発送元の地域</td>
           </tr>
           <tr>
             <th class="detail-item">発送日の目安</th>
-            <td class="detail-value" th:text="${item.getUntilDeliveryText()}">発送日の目安</td>
+            <td class="detail-value" th:text="${item.untilDeliveryText}">発送日の目安</td>
           </tr>
         </tbody>
       </table>
@@ -118,7 +118,7 @@
     <a href="#" class="change-item-btn">後ろの商品 ＞</a>
   </div>
 
-  <a href="#" class="another-item" th:text="${item.getCategoryText()} + 'をもっと見る'">商品のカテゴリー名をもっと見る</a>
+  <a href="#" class="another-item" th:text="${item.categoryText} + 'をもっと見る'">商品のカテゴリー名をもっと見る</a>
 
   <div th:replace="~{shared/footer :: main-footer}"></div>
 </body>

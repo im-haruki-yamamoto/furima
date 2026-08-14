@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import in.tech_camp.furima.custom_user.CustomUserDetails;
 import in.tech_camp.furima.dto.ItemResponseDto;
+import in.tech_camp.furima.security.CustomUserDetails;
 import in.tech_camp.furima.service.ItemService;
 import lombok.AllArgsConstructor;
 
