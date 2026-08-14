@@ -14,15 +14,15 @@ import lombok.AllArgsConstructor;
 public class ItemController {
   private final ItemService itemService;
 
-  @PostMapping("/items/{id}/delete")
-  public String deleteItem(@PathVariable("itemId") Long id,
+  @PostMapping("/items/{itemId}/delete")
+  public String deleteItem(@PathVariable("itemId") Long itemId,
       @AuthenticationPrincipal CustomUserDetails userDetails) {
 
     if (userDetails == null) {
       return "redirect:/login";
     }
     try {
-      itemService.deleteItem(id, userDetails.getId());
+      itemService.deleteItem(itemId, userDetails.getId());
       return "redirect:/";
     } catch (Exception e) {
       System.out.println("エラー：" + e.getMessage());
