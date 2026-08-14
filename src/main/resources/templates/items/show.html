@@ -39,7 +39,7 @@
       <!-- ログイン時のボタン出し分け -->
       <div sec:authorize="isAuthenticated()" class="item-btn-box">
         <!-- 出品者本人の場合 -->
-        <th:block th:if="${#authentication.principal.class.simpleName == 'CustomUserDetails' and #authentication.principal.user.id == item.user.id}">
+        <th:block th:if="${isOwner}">
           <a th:href="@{/items/{itemId}/edit(itemId=${item.id})}" class="item-red-btn">商品の編集</a>
           <p class="or-text">or</p>
           <form th:action="@{/items/{itemId}/delete(itemId=${item.id})}" method="post" class="delete-form">
@@ -48,7 +48,7 @@
         </th:block>
 
         <!-- 出品者以外の場合 -->
-        <th:block th:unless="${#authentication.principal.class.simpleName == 'CustomUserDetails' and #authentication.principal.user.id == item.user.id}">
+        <th:block th:unless="${isOwner}">
           <a th:href="@{/items/{itemId}/orders(itemId=${item.id})}" class="item-red-btn">購入画面に進む</a>
         </th:block>
       </div>
