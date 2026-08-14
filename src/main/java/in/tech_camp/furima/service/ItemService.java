@@ -1,24 +1,24 @@
 package in.tech_camp.furima.service;
 
 import java.util.Objects;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import in.tech_camp.furima.dto.ItemEditDto;
 import in.tech_camp.furima.entity.ItemEntity;
-import in.tech_camp.furima.repository.ItemRepository;
-import in.tech_camp.furima.exception.ResourceNotFoundException;
 import in.tech_camp.furima.exception.ForbiddenException;
-import in.tech_camp.furima.util.SaveImageFileUtil;
-
+import in.tech_camp.furima.exception.ResourceNotFoundException;
+import in.tech_camp.furima.mapper.ItemMapper;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class ItemService {
-  private final ItemRepository itemRepository;
+  private final ItemMapper itemRepository;
 
+// 商品編集
   @Transactional(readOnly = true)
   public ItemEditDto getItemForEdit(Long itemId, Long currentUserId) {
     ItemEntity item = findItemAndCheckOwner(itemId, currentUserId);
