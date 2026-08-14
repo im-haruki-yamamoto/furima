@@ -21,9 +21,6 @@ public class ItemController {
     if (userDetails == null) {
       return "redirect:/login";
     }
-
-    Long currentUserId = (userDetails != null) ? userDetails.getId() : 1L;
-    
     try {
       itemService.deleteItem(id, userDetails.getId());
       return "redirect:/";
