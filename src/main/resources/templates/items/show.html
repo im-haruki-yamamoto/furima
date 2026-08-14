@@ -36,8 +36,8 @@
         </span>
       </div>
 
-      <!-- ログイン時のボタン出し分け -->
-      <div sec:authorize="isAuthenticated()" class="item-btn-box">
+      <!-- ログイン状態 かつ 未売却(isSoldがfalse) の場合のみボタンを表示 -->
+      <div sec:authorize="isAuthenticated()" th:unless="${isSold}" class="item-btn-box">
         <!-- 出品者本人の場合 -->
         <th:block th:if="${isOwner}">
           <a th:href="@{/items/{itemId}/edit(itemId=${item.id})}" class="item-red-btn">商品の編集</a>

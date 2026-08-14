@@ -1,6 +1,6 @@
 package in.tech_camp.furima.dto;
 
-import in.tech_camp.furima.entity.ItemEntity;
+import in.tech_camp.furima.entity.Item;
 import in.tech_camp.furima.enums.Category;
 import in.tech_camp.furima.enums.Condition;
 import in.tech_camp.furima.enums.DeliveryFeeType;
@@ -23,21 +23,21 @@ public class ItemResponseDto {
   private Long userId;
   private String userNickname;
 
-  public ItemResponseDto(ItemEntity entity) {
-    this.id = entity.getId();
-    this.name = entity.getName();
-    this.description = entity.getDescription();
-    this.price = entity.getPrice();
-    this.img = entity.getImg();
-    if (entity.getUser() != null) {
-      this.userId = entity.getUser().getId();
-      this.userNickname = entity.getUser().getNickname();
+  public ItemResponseDto(Item item) {
+    this.id = item.getId();
+    this.name = item.getName();
+    this.description = item.getDescription();
+    this.price = item.getPrice();
+    this.img = item.getImg();
+    if (item.getUser() != null) {
+      this.userId = item.getUser().getId();
+      this.userNickname = item.getUser().getNickname();
     }
 
-    this.categoryText = Category.fromCode(entity.getCategory()).getDisplayName();
-    this.deliveryFeeText = DeliveryFeeType.fromCode(entity.getDeliveryFee()).getDisplayName();
-    this.prefectureText = PrefectureType.fromCode(entity.getPrefecture()).getDisplayName();
-    this.conditionText = Condition.fromCode(entity.getCondition()).getDisplayName();
-    this.untilDeliveryText = UntilDelivery.fromCode(entity.getUntilDelivery()).getDisplayName();
+    this.categoryText = Category.fromCode(item.getCategory()).getDisplayName();
+    this.deliveryFeeText = DeliveryFeeType.fromCode(item.getDeliveryFee()).getDisplayName();
+    this.prefectureText = PrefectureType.fromCode(item.getPrefecture()).getDisplayName();
+    this.conditionText = Condition.fromCode(item.getCondition()).getDisplayName();
+    this.untilDeliveryText = UntilDelivery.fromCode(item.getUntilDelivery()).getDisplayName();
   }
 }

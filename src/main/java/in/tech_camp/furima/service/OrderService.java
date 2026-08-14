@@ -23,9 +23,9 @@ public class OrderService {
     }
 
     @Transactional
-    public void createOrder(OrderForm orderForm, Long itemId, Long userId, int price) {
-        // PAY.JP 決済処理
-        payjpService.charge(price, orderForm.getToken());
+    public void createOrder(OrderForm orderForm, Long itemId, Long userId, Long price) {
+        // PAY.JP 決済処理（int型が必要な場合は .intValue() で変換）
+        payjpService.charge(price.intValue(), orderForm.getToken());
 
         // Order 保存
         Order order = new Order();

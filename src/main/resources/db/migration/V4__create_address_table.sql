@@ -1,4 +1,4 @@
-CREATE TABLE address (
+CREATE TABLE IF NOT EXISTS address (
     id BIGSERIAL PRIMARY KEY,
     postal_code VARCHAR(255) NOT NULL,
     prefecture_id INTEGER NOT NULL,
