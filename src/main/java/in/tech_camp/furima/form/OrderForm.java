@@ -9,27 +9,26 @@ import lombok.Data;
 @Data
 public class OrderForm {
 
-    @NotBlank(message = "は必須項目です")
-    @Pattern(regexp = "^\\d{3}-\\d{4}$", message = "は「3桁ハイフン4桁」の半角数値で入力してください")
+    @NotBlank(message = "郵便番号を入力してください")
+    @Pattern(regexp = "^\\d{3}-\\d{4}$", message = "郵便番号は「3桁ハイフン4桁」の半角数値で入力してください")
     private String postalCode;
 
-    @NotNull(message = "を選択してください")
-    @Min(value = 1, message = "を選択してください")
+    @NotNull(message = "都道府県を選択してください")
+    @Min(value = 1, message = "都道府県を選択してください")
     private Integer prefectureId;
 
-    @NotBlank(message = "は必須項目です")
+    @NotBlank(message = "市区町村を入力してください")
     private String city;
 
-    @NotBlank(message = "は必須項目です")
+    @NotBlank(message = "番地を入力してください")
     private String address;
 
-    // 建物名は任意
     private String building;
 
-    @NotBlank(message = "は必須項目です")
-    @Pattern(regexp = "^\\d{10,11}$", message = "は10桁以上11桁以内の半角数値で入力してください")
+    @NotBlank(message = "電話番号を入力してください")
+    @Pattern(regexp = "^\\d{10,11}$", message = "電話番号は10桁以上11桁以内の半角数値で入力してください")
     private String phoneNumber;
 
-    @NotBlank(message = "を入力してください")
+    @NotBlank(message = "クレジットカード情報を入力してください")
     private String token;
 }
