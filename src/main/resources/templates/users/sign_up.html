@@ -18,34 +18,35 @@
   <div th:replace="~{shared/header :: second-header}"></div>
 
   <!-- formのactionとth:objectを設定しましょう。 -->
-  <form action="hoge" th:object="${hoge}" method="post" class="registration-main">
+  <form th:action="@{/users/sign_up}" th:object="${userForm}" method="post" class="registration-main">
     <div class="form-wrap">
       <div class="form-header">
         <h1 class="form-header-text">会員情報入力</h1>
       </div>
 
       <!-- エラーメッセージを表示できるようにしましょう。 -->
+       <div th:replace="~{shared/errors :: error-messages}"></div>
 
       <div class="form-group">
         <div class="form-text-wrap">
           <label class="form-text">ニックネーム</label>
           <span class="indispensable">必須</span>
         </div>
-        <textarea th:field="*{hoge}" class="input-default" placeholder="例) furima太郎" maxlength="40"></textarea>
+        <textarea th:field="*{nickname}" class="input-default" placeholder="例) furima太郎" maxlength="40"></textarea>
       </div>
       <div class="form-group">
         <div class="form-text-wrap">
           <label class="form-text">メールアドレス</label>
           <span class="indispensable">必須</span>
         </div>
-        <input type="email" th:field="*{hoge}" class="input-default" placeholder="PC・携帯どちらでも可">
+        <input type="email" th:field="*{email}" class="input-default" placeholder="PC・携帯どちらでも可">
       </div>
       <div class="form-group">
         <div class="form-text-wrap">
           <label class="form-text">パスワード</label>
           <span class="indispensable">必須</span>
         </div>
-        <input type="password" th:field="*{hoge}" class="input-default" placeholder="6文字以上の半角英数字">
+        <input type="password" th:field="*{password}" class="input-default" placeholder="6文字以上の半角英数字">
         <p class="info-text">※英字と数字の両方を含めて設定してください</p>
       </div>
       <div class="form-group">
@@ -53,7 +54,7 @@
           <label class="form-text">パスワード（確認）</label>
           <span class="indispensable">必須</span>
         </div>
-        <input type="password" th:field="*{hoge}" class="input-default" placeholder="同じパスワードを入力して下さい">
+        <input type="password" th:field="*{passwordConfirmation}" class="input-default" placeholder="同じパスワードを入力して下さい">
       </div>
 
       <div class="form-group">
@@ -68,8 +69,8 @@
           <span class="indispensable">必須</span>
         </div>
         <div class="input-name-wrap">
-          <input type="text" th:field="*{hoge}" class="input-name" placeholder="例) 山田">
-          <input type="text" th:field="*{hoge}" class="input-name" placeholder="例) 陸太郎">
+          <input type="text" th:field="*{lastName}" class="input-name" placeholder="例) 山田">
+          <input type="text" th:field="*{firstName}" class="input-name" placeholder="例) 陸太郎">
         </div>
       </div>
       <div class="form-group">
@@ -78,8 +79,8 @@
           <span class="indispensable">必須</span>
         </div>
         <div class="input-name-wrap">
-          <input type="text" th:field="*{hoge}" class="input-name" placeholder="例) ヤマダ">
-          <input type="text" th:field="*{hoge}" class="input-name" placeholder="例) リクタロウ">
+          <input type="text" th:field="*{lastNameKana}" class="input-name" placeholder="例) ヤマダ">
+          <input type="text" th:field="*{firstNameKana}" class="input-name" placeholder="例) リクタロウ">
         </div>
       </div>
       <div class="form-group">
@@ -88,17 +89,17 @@
           <span class="indispensable">必須</span>
         </div>
         <div class="input-birth-wrap">
-          <select th:field="*{hoge}" class="input-birth-year">
+          <select th:field="*{birthYear}" class="input-birth-year">
             <option value="">--</option>
             <option th:each="y : ${#numbers.sequence(1950, 2025)}" th:value="${y}" th:text="${y}"></option>
           </select>
           <p>年</p>
-          <select th:field="*{hoge}" class="input-birth-month">
+          <select th:field="*{birthMonth}" class="input-birth-month">
             <option value="">--</option>
             <option th:each="m : ${#numbers.sequence(1, 12)}" th:value="${m}" th:text="${m}"></option>
           </select>
           <p>月</p>
-          <select th:field="*{hoge}" class="input-birth-day">
+          <select th:field="*{birthDay}" class="input-birth-day">
             <option value="">--</option>
             <option th:each="d : ${#numbers.sequence(1, 31)}" th:value="${d}" th:text="${d}"></option>
           </select>
