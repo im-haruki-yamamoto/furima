@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .error-alert {
   display: flex;
   justify-content: center;
@@ -9,3 +10,16 @@
   list-style: circle;
   color: rgb(182, 48, 0);
 }
+=======
+.error-alert {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5vh;
+}
+
+.error-message {
+  font-size: 1.1vw;
+  list-style: circle;
+  color: rgb(182, 48, 0);
+}
+>>>>>>> a60203edd2ade1e89c9a152202b4b595e90fd709
