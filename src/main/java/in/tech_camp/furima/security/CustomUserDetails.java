@@ -1,4 +1,4 @@
-package in.tech_camp.furima.custom_user;
+package in.tech_camp.furima.security;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,14 +7,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import in.tech_camp.furima.entity.UserEntity;
-import in.tech_camp.furima.repository.UserRepository;
+import in.tech_camp.furima.mapper.UserMapper;
 
 @Service
 public class CustomUserDetails implements UserDetailsService {
 
-  private final UserRepository userRepository;
+  private final UserMapper userRepository;
 
-  public CustomUserDetails(UserRepository userRepository) {
+  public CustomUserDetails(UserMapper userRepository) {
     this.userRepository = userRepository;
   }
 
