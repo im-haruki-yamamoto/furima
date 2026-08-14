@@ -1,11 +1,15 @@
-package in.tech_camp.furima.repository;
+package in.tech_camp.furima.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import in.tech_camp.furima.entity.ItemEntity;
 
-public interface ItemRepository {
+@Mapper
+public interface ItemMapper {
+
+
 
   // 商品編集
   @Select("SELECT * FROM items WHERE id = #{id}")
