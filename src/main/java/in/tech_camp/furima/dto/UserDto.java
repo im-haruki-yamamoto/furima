@@ -1,11 +1,10 @@
-package in.tech_camp.furima.entity;
+package in.tech_camp.furima.dto;
 
 import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class UserEntity {
-    private Long id;
+public class UserDto {
     private String nickname;
     private String email;
     private String password;
@@ -13,5 +12,5 @@ public class UserEntity {
     private String firstName;
     private String lastNameKana;
     private String firstNameKana;
-    private LocalDate birthDate;
+    private LocalDate birthDate; 
 }
