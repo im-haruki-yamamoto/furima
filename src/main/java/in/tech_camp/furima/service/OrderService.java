@@ -3,9 +3,9 @@ package in.tech_camp.furima.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import in.tech_camp.furima.dto.OrderForm;
 import in.tech_camp.furima.entity.Address;
 import in.tech_camp.furima.entity.Order;
+import in.tech_camp.furima.form.OrderForm;
 import in.tech_camp.furima.mapper.AddressMapper;
 import in.tech_camp.furima.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class OrderService {
         address.setPostalCode(orderForm.getPostalCode());
         address.setPrefectureId(orderForm.getPrefectureId());
         address.setCity(orderForm.getCity());
-        address.setAddresses(orderForm.getAddresses());
+        address.setAddress(orderForm.getAddress());
         address.setBuilding(orderForm.getBuilding());
         address.setPhoneNumber(orderForm.getPhoneNumber());
         address.setOrderId(order.getId());

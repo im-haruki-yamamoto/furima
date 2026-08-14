@@ -1,4 +1,4 @@
-package in.tech_camp.furima.entity;
+package in.tech_camp.furima.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

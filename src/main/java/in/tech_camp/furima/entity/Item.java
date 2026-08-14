@@ -2,12 +2,17 @@ package in.tech_camp.furima.entity;
 
 import lombok.Data;
 
-// ダミークラス
 @Data
 public class Item {
     private Long id;
-    private String name;
-    private Integer price;
     private Long userId;
-    private String imagePath;
+    private String name;
+    private String description;
+    private Integer category;
+    private Integer condition;
+    private Integer deliveryFee;
+    private Integer prefecture;
+    private Integer untilDelivery;
+    private Integer price;
+    private String img;
 }

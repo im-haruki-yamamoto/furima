@@ -1,4 +1,4 @@
-package in.tech_camp.furima.dto;
+package in.tech_camp.furima.form;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -21,7 +21,7 @@ public class OrderForm {
     private String city;
 
     @NotBlank(message = "は必須項目です")
-    private String addresses;
+    private String address;
 
     // 建物名は任意
     private String building;

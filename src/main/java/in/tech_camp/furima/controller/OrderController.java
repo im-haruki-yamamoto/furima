@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import in.tech_camp.furima.custom_user.CustomUserDetail;
-import in.tech_camp.furima.dto.OrderForm;
 import in.tech_camp.furima.entity.Item;
-import in.tech_camp.furima.entity.Prefecture;
+import in.tech_camp.furima.enums.Prefecture;
+import in.tech_camp.furima.form.OrderForm;
 import in.tech_camp.furima.mapper.ItemMapper;
 import in.tech_camp.furima.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class OrderController {
 
     @GetMapping
     public String index(@PathVariable("itemId") Long itemId,
-                        @AuthenticationPrincipal CustomUserDetail currentUser,
+                        @AuthenticationPrincipal CustomUserDetail customUserDetail,
                         Model model,
                         @ModelAttribute("orderForm") OrderForm orderForm) {
 
@@ -42,11 +42,12 @@ public class OrderController {
             return "redirect:/";
         }
 
-        boolean isSold = orderService.isSold(itemId);
-        Long currentUserId = currentUser.getUser().getId();
+        Long currentUserId = (customUserDetail != null) ? customUserDetail.getId() : 1;
 
-        // ガード制御: 自身が出品した商品 OR 売却済みの商品 -> トップページへリダイレクト
-        if (item.getUserId().equals(currentUserId) || isSold) {
+        boolean isSold = orderService.isSold(itemId);
+
+        // ガード制御: 自身が出品した商品 OR 売却済みの商品 -> トップページへ
+        if (item.getUserId() != null && item.getUserId().equals(currentUserId) || isSold) {
             return "redirect:/";
         }
 
@@ -59,7 +60,7 @@ public class OrderController {
 
     @PostMapping
     public String create(@PathVariable("itemId") Long itemId,
-                         @AuthenticationPrincipal CustomUserDetail currentUser,
+                         @AuthenticationPrincipal CustomUserDetail customUserDetail,
                          @Validated @ModelAttribute("orderForm") OrderForm orderForm,
                          BindingResult bindingResult,
                          Model model) {
@@ -69,14 +70,14 @@ public class OrderController {
             return "redirect:/";
         }
 
-        boolean isSold = orderService.isSold(itemId);
-        Long currentUserId = currentUser.getUser().getId();
+        Long currentUserId = (customUserDetail != null) ? customUserDetail.getId() : 1;
 
-        if (item.getUserId().equals(currentUserId) || isSold) {
+        boolean isSold = orderService.isSold(itemId);
+
+        if (item.getUserId() != null && item.getUserId().equals(currentUserId) || isSold) {
             return "redirect:/";
         }
 
-        // バリデーションエラー時（フォームの入力項目は自動で保持される）
         if (bindingResult.hasErrors()) {
             model.addAttribute("item", item);
             model.addAttribute("prefectures", Prefecture.values());
@@ -87,6 +88,7 @@ public class OrderController {
         try {
             orderService.createOrder(orderForm, itemId, currentUserId, item.getPrice());
         } catch (Exception e) {
+            e.printStackTrace();
             model.addAttribute("item", item);
             model.addAttribute("prefectures", Prefecture.values());
             model.addAttribute("payjpPublicKey", payjpPublicKey);

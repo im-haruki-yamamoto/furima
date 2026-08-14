@@ -1,0 +1,16 @@
+CREATE TABLE items (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    name VARCHAR(256) NOT NULL,
+    description TEXT NOT NULL,
+    category INTEGER NOT NULL,
+    condition INTEGER NOT NULL,
+    delivery_fee INTEGER NOT NULL,
+    prefecture INTEGER NOT NULL,
+    until_delivery INTEGER NOT NULL,
+    price BIGINT NOT NULL,
+    img VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_items_users FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);

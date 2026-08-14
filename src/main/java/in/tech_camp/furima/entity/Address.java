@@ -8,7 +8,7 @@ public class Address {
     private String postalCode;
     private Integer prefectureId;
     private String city;
-    private String addresses;
+    private String address;
     private String building;
     private String phoneNumber;
     private Long orderId;
