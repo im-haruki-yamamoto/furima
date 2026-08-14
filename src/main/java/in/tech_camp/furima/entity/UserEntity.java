@@ -1,5 +1,7 @@
 package in.tech_camp.furima.entity;
 
+import java.time.LocalDate;
+
 import lombok.Data;
 
 @Data
@@ -12,4 +14,5 @@ public class UserEntity {
   private String firstName;
   private String lastNameKana;
   private String firstNameKana;
+  private LocalDate birthDate;
 }

@@ -20,7 +20,7 @@
       <h2 class="items-sell-title">商品の情報を編集</h2>
 
       <!-- formのactionとth:objectを設定しましょう。 -->
-      <form th:action="@{/items/{id}/update(id=${itemForm.id})}" th:object="${itemForm}" method="post"
+      <form th:action="@{/items/{itemId}/update(itemId=${itemForm.id})}" th:object="${itemForm}" method="post"
         enctype="multipart/form-data">
         <!-- エラーメッセージを表示できるようにしましょう。 -->
         <div th:replace="~{shared/errors :: error-messages}"></div>
@@ -55,7 +55,7 @@
             </select>
             <div class="weight-bold-text">商品の状態 <span class="indispensable">必須</span></div>
             <select th:field="*{condition}" class="select-box">
-              <option th:each="hoge : ${hoge}" th:value="${hoge}" th:text="${hoge}"></option>
+              <option th:each="condition : ${conditions}" th:value="${condition.id}" th:text="${condition.name}"></option>
             </select>
           </div>
         </div>
@@ -66,15 +66,15 @@
           <div class="form">
             <div class="weight-bold-text">配送料の負担 <span class="indispensable">必須</span></div>
             <select th:field="*{deliveryFee}" class="select-box">
-              <option th:each="hoge : ${hoge}" th:value="${hoge}" th:text="${hoge}"></option>
+              <option th:each="fee : ${deliveryFees}" th:value="${fee.id}" th:text="${fee.name}"></option>
             </select>
             <div class="weight-bold-text">発送元の地域 <span class="indispensable">必須</span></div>
             <select th:field="*{prefecture}" class="select-box">
-              <option th:each="hoge : ${hoge}" th:value="${hoge}" th:text="${hoge}"></option>
+              <option th:each="pref : ${prefectures}" th:value="${pref.id}" th:text="${pref.name}"></option>
             </select>
             <div class="weight-bold-text">発送までの日数 <span class="indispensable">必須</span></div>
             <select th:field="*{untilDelivery}" class="select-box">
-              <option th:each="hoge : ${hoge}" th:value="${hoge}" th:text="${hoge}"></option>
+              <option th:each="until : ${untilDeliveries}" th:value="${until.id}" th:text="${until.name}"></option>
             </select>
           </div>
         </div>
@@ -106,7 +106,7 @@
 
         <div class="sell-btn-contents">
           <button type="submit" class="sell-btn">変更する</button>
-          <a th:href="@{/items/{id}(id=${itemForm.id})}" class="back-btn">もどる</a>
+          <a th:href="@{/items/{itemId}(itemId=${itemForm.id})}" class="back-btn">もどる</a>
         </div>
       </form>
     </div>
