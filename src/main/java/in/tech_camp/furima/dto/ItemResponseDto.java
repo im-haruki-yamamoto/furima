@@ -30,13 +30,13 @@ public class ItemResponseDto {
     this.price = entity.getPrice();
     this.img = entity.getImg();
     if (entity.getUser() != null) {
-            this.userId = entity.getUser().getId();
-            this.userNickname = entity.getUser().getNickname();
-        }
+      this.userId = entity.getUser().getId();
+      this.userNickname = entity.getUser().getNickname();
+    }
 
     this.categoryText = Category.fromCode(entity.getCategory()).getDisplayName();
-    this.deliveryFeeText = DeliveryFeeType.fromCode(entity.getDeliveryFee()).getLabel();
-    this.prefectureText = PrefectureType.fromCode(entity.getPrefecture()).getLabel();
+    this.deliveryFeeText = DeliveryFeeType.fromCode(entity.getDeliveryFee()).getDisplayName();
+    this.prefectureText = PrefectureType.fromCode(entity.getPrefecture()).getDisplayName();
     this.conditionText = Condition.fromCode(entity.getCondition()).getDisplayName();
     this.untilDeliveryText = UntilDelivery.fromCode(entity.getUntilDelivery()).getDisplayName();
   }

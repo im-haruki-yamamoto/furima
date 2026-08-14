@@ -1,13 +1,11 @@
 package in.tech_camp.furima.enums;
 
-import java.util.Arrays;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum PrefectureType {
+public enum PrefectureType implements CodedEnum{
 
   HOKKAIDO(1, "北海道"),
   AOMORI(2, "青森県"),
@@ -58,25 +56,14 @@ public enum PrefectureType {
   OKINAWA(47, "沖縄県");
 
   private final int code;
-  private final String label;
+  private final String displayName;
 
   public static PrefectureType fromCode(int code) {
-    // 逆引きでcodeから都道府県を見つける
-    /**
-     * 全県取得 -> 引数に渡されたJISコードと一致するかfilterをかけ、一致した最初の都道府県を取得
-     */
-    return Arrays.stream(values())
-        .filter(p -> p.getCode() == code).findFirst()
-        .orElseThrow(() -> new IllegalArgumentException("存在しない都道府県コードです" + code));
-  }
+        return EnumUtil.fromCode(values(), code, "都道府県");
+    }
 
   public static PrefectureType fromDisplayName(String displayName) {
-    for (PrefectureType prefectureType : PrefectureType.values()) {
-      if (prefectureType.getLabel().equals(displayName)) {
-        return prefectureType;
-      }
+        return EnumUtil.fromDisplayName(values(), displayName, "都道府県");
     }
-    throw new IllegalArgumentException("不正な都道府県表示です: " + displayName);
-  }
 
 }

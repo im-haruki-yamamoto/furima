@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Category {
+public enum Category implements CodedEnum {
     LADIES(1, "レディース"),
     MENS(2, "メンズ"),
     BABY_KIDS(3, "ベビー・キッズ"),
@@ -22,20 +22,10 @@ public enum Category {
     private final String displayName;
 
     public static Category fromCode(int code) {
-        for (Category category : Category.values()) {
-            if (category.getCode() == code) {
-                return category;
-            }
-        }
-        throw new IllegalArgumentException("不正なカテゴリーコードです: " + code);
+        return EnumUtil.fromCode(values(), code, "カテゴリー");
     }
 
     public static Category fromDisplayName(String displayName) {
-        for (Category category : Category.values()) {
-            if (category.getDisplayName().equals(displayName)) {
-                return category;
-            }
-        }
-        throw new IllegalArgumentException("不正なカテゴリー表示です: " + displayName);
+        return EnumUtil.fromDisplayName(values(), displayName, "カテゴリー");
     }
 }
