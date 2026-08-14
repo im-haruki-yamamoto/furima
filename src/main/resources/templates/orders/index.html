@@ -17,6 +17,9 @@
 <div th:replace="~{shared/header :: second-header}"></div>
 
 <div class="transaction-contents">
+  <p style="color: red; font-weight: bold; text-align: center; font-size: 18px;" 
+    th:text="'【デバッグ】ログイン中ユーザーID: ' + ${userId}">
+  </p>
   <div class="transaction-main">
     <h1 class="transaction-title-text">購入内容の確認</h1>
 

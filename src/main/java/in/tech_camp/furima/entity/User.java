@@ -1,17 +1,18 @@
 package in.tech_camp.furima.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDate;
 
 import lombok.Data;
 
-/**
- * ユーザー情報を保持するエンティティクラス
- */
 @Data
 public class User {
-  private Long id;
-  private String name;
-  private String email;
-  @JsonIgnore
-  private String password;
+    private Long id;
+    private String nickname;
+    private String email;
+    private String password;
+    private String lastName;
+    private String firstName;
+    private String lastNameKana;
+    private String firstNameKana;
+    private LocalDate birthDate;
 }

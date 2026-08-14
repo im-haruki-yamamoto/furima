@@ -16,7 +16,6 @@ import lombok.Getter;
 @Getter
 public class CustomUserDetail implements UserDetails {
 
-    // DBから取得したユーザーエンティティ
     private final User user;
 
     public CustomUserDetail(User user) {
@@ -28,51 +27,48 @@ public class CustomUserDetail implements UserDetails {
         return user.getId();
     }
 
-    // ユーザー名の取得
-    public String getName() {
-        return user.getName();
+    // ニックネームの取得
+    public String getNickname() {
+        return user.getNickname();
     }
 
-    // ユーザーの権限（ロール）設定。今回はシンプルにするため空リストを返します
+    // 互換性のための名前取得
+    public String getName() {
+        return user.getNickname();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
     }
 
-    /** パスワードの取得（Spring Securityが入力されたパスワードと照合するために使用） */
     @Override
     public String getPassword() {
         return user.getPassword();
     }
 
-    /**
-     * ログイン識別子（ユーザー名）の取得
-     * 今回は email をログインIDとして使うため、user.getEmail() を返します
-     */
     @Override
     public String getUsername() {
         return user.getEmail();
     }
 
-    /* 以下、アカウントの状態設定（今回はすべて有効「true」として扱います） */
-
     @Override
     public boolean isAccountNonExpired() {
-        return true; // アカウントの期限切れがないか
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // アカウントがロックされていないか
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // パスワードの期限切れがないか
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return true; // アカウントが有効か
+        return true;
     }
 }

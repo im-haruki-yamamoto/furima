@@ -37,20 +37,27 @@ public class OrderController {
                         Model model,
                         @ModelAttribute("orderForm") OrderForm orderForm) {
 
+        // 未ログインの場合はログイン画面へ
+        if (customUserDetail == null) {
+            return "redirect:/users/sign_in";
+        }
+
         Item item = itemMapper.findById(itemId);
         if (item == null) {
             return "redirect:/";
         }
 
-        Long currentUserId = (customUserDetail != null) ? customUserDetail.getId() : 1;
-
+        Long currentUserId = customUserDetail.getId();
+        Long itemSellerId = item.getUserId();
         boolean isSold = orderService.isSold(itemId);
 
-        // ガード制御: 自身が出品した商品 OR 売却済みの商品 -> トップページへ
-        if (item.getUserId() != null && item.getUserId().equals(currentUserId) || isSold) {
+        // 自身が出品した商品 または 売却済みの商品 -> トップページへリダイレクト
+        if (isSold || (itemSellerId != null && itemSellerId.equals(currentUserId))) {
+            System.out.println("--> アクセス不可のためトップページへ弾きます");
             return "redirect:/";
         }
 
+        model.addAttribute("userId", currentUserId);
         model.addAttribute("item", item);
         model.addAttribute("prefectures", Prefecture.values());
         model.addAttribute("payjpPublicKey", payjpPublicKey);
@@ -65,16 +72,20 @@ public class OrderController {
                          BindingResult bindingResult,
                          Model model) {
 
+        if (customUserDetail == null) {
+            return "redirect:/users/sign_in";
+        }
+
         Item item = itemMapper.findById(itemId);
         if (item == null) {
             return "redirect:/";
         }
 
-        Long currentUserId = (customUserDetail != null) ? customUserDetail.getId() : 1;
-
+        Long currentUserId = customUserDetail.getId();
+        Long itemSellerId = item.getUserId();
         boolean isSold = orderService.isSold(itemId);
 
-        if (item.getUserId() != null && item.getUserId().equals(currentUserId) || isSold) {
+        if (isSold || (itemSellerId != null && itemSellerId.equals(currentUserId))) {
             return "redirect:/";
         }
 
