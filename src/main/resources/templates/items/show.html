@@ -40,7 +40,7 @@
       <!-- ログインしているユーザーと出品しているユーザーが、同一人物の場合と同一人物ではない場合で、処理を分けましょう -->
       <div
         th:if="${#authorization.expression('isAuthenticated()') and #authentication?.principal.getId() == item.user.id}">
-        <a th:href="@{/items/{id}/edit(itemId=${item.id})}" class="item-red-btn">商品の編集</a>
+        <a th:href="@{/items/{itemId}/edit(itemId=${item.id})}" class="item-red-btn">商品の編集</a>
         <p class="or-text">or</p>
         <form action="hoge" method="post">
           <button type="submit" class="item-destroy">削除</button>
