@@ -79,12 +79,12 @@
           <div class="weight-bold-text">配送料の負担 <span class="indispensable">必須</span></div>
           <select th:field="*{deliveryFee}" class="select-box" id="item-shipping-fee-status">
             <option value="">---</option>
-            <option th:each="fee : ${deliveryFees}" th:value="${fee.code}" th:text="${fee.label}"></option>
+            <option th:each="fee : ${deliveryFeeTypes}" th:value="${fee.code}" th:text="${fee.displayName}"></option>
           </select>
           <div class="weight-bold-text">発送元の地域 <span class="indispensable">必須</span></div>
           <select th:field="*{prefecture}" class="select-box" id="item-prefecture">
             <option value="">---</option>
-            <option th:each="pref : ${prefectures}" th:value="${pref.code}" th:text="${pref.label}"></option>
+            <option th:each="pref : ${prefectureTypes}" th:value="${pref.code}" th:text="${pref.displayName}"></option>
           </select>
           <div class="weight-bold-text">発送までの日数 <span class="indispensable">必須</span></div>
           <select th:field="*{untilDelivery}" class="select-box" id="item-scheduled-delivery">

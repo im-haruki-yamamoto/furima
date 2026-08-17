@@ -3,11 +3,9 @@ package in.tech_camp.furima.controller;
 import java.io.IOException;
 import java.util.Objects;
 
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -82,8 +80,8 @@ public class ItemController {
   private void addEnumAttributesToModel(Model model) {
     model.addAttribute("categories", Category.values());
     model.addAttribute("conditions", Condition.values());
-    model.addAttribute("deliveryFees", DeliveryFeeType.values());
-    model.addAttribute("prefectures", PrefectureType.values());
+    model.addAttribute("deliveryFeeTypes", DeliveryFeeType.values());
+    model.addAttribute("prefectureTypes", PrefectureType.values());
     model.addAttribute("untilDeliveries", UntilDelivery.values());
   }
 
