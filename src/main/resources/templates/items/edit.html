@@ -20,7 +20,7 @@
       <!-- formのactionとth:object設定 -->
       <form th:action="@{/items/{itemId}/update(itemId=${itemForm.id})}" th:object="${itemForm}" method="post"
         enctype="multipart/form-data">
-
+        
         <!-- エラーメッセージ -->
         <div th:replace="~{shared/errors :: error-messages}"></div>
 
