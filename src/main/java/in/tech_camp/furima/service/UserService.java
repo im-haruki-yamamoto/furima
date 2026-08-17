@@ -35,7 +35,7 @@ public class UserService {
         user.setLastNameKana(dto.getLastNameKana());
         user.setFirstNameKana(dto.getFirstNameKana());
         LocalDate birthDate = dto.getBirthDate();
-        user.setBirthday(birthDate);
+        user.setBirthDate(birthDate);
 
         userRepository.insert(user);
     }

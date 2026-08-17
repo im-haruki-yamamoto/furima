@@ -62,8 +62,8 @@ public class ItemController {
       return "items/new";
     }
 
-    // Long loginUserId = userDetails.getUser().getId();
-    Long loginUserId = 1L;
+    Long loginUserId = userDetails.getUser().getId();
+    // Long loginUserId = 1L;
 
     try {
       itemService.saveItem(itemForm, loginUserId);
