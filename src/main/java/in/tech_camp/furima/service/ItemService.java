@@ -5,6 +5,7 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import in.tech_camp.furima.converter.ItemConverter;
 import in.tech_camp.furima.dto.ItemResponseDto;
 import in.tech_camp.furima.entity.Item;
 import in.tech_camp.furima.mapper.ItemMapper;
@@ -17,6 +18,7 @@ public class ItemService {
 
     private final ItemMapper itemMapper;
     private final OrderMapper orderMapper;
+    private final ItemConverter itemConverter;
 
     @Transactional(readOnly = true)
     public ItemResponseDto findById(Long itemId) throws Exception {
@@ -24,10 +26,9 @@ public class ItemService {
         if (item == null) {
             throw new Exception("該当の商品が見つかりません");
         }
-        return new ItemResponseDto(item);
+        return itemConverter.toDto(item);
     }
 
-    // 購入済みかを判定するメソッドを追加
     @Transactional(readOnly = true)
     public boolean isSold(Long itemId) {
         return orderMapper.existsByItemId(itemId);
