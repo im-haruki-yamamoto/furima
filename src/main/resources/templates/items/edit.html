@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <title>商品編集 - Furima</title>
-  <!-- cssは商品出品のものを併用しています: /css/items/new.css -->
   <link rel="stylesheet" href="/css/application.css">
   <link rel="stylesheet" href="/css/shared/errors.css">
   <link rel="stylesheet" href="/css/shared/form.css">
@@ -19,10 +17,11 @@
     <div class="items-sell-main">
       <h2 class="items-sell-title">商品の情報を編集</h2>
 
-      <!-- formのactionとth:objectを設定しましょう。 -->
+      <!-- formのactionとth:object設定 -->
       <form th:action="@{/items/{itemId}/update(itemId=${itemForm.id})}" th:object="${itemForm}" method="post"
         enctype="multipart/form-data">
-        <!-- エラーメッセージを表示できるようにしましょう。 -->
+
+        <!-- エラーメッセージ -->
         <div th:replace="~{shared/errors :: error-messages}"></div>
 
         <!-- 出品画像 -->
@@ -30,7 +29,7 @@
           <div class="weight-bold-text">出品画像 <span class="indispensable">必須</span></div>
           <div class="click-upload">
             <p>クリックしてファイルをアップロード</p>
-            <input type="file" name="img" id="item-img" multiple accept="img/*">
+            <input type="file" name="img" id="item-img" multiple accept="image/*">
           </div>
           <div id="image-list"></div>
         </div>
@@ -115,5 +114,4 @@
   </div>
   <script src="/js/item_price.js"></script>
 </body>
-
 </html>
