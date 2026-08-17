@@ -12,53 +12,54 @@ import lombok.Data;
 @Data
 public class CustomUserDetails implements UserDetails {
 
-  private final UserEntity user;
+    private final UserEntity user;
 
-  public CustomUserDetails(UserEntity user) {
-    this.user = user;
-  }
+    public CustomUserDetails(UserEntity user) {
+        this.user = user;
+    }
 
-  public UserEntity getUser() {
-    return user;
-  }
 
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Collections.emptyList();
-  }
+    public UserEntity getUser() {
+        return user;
+    }
+    
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
+    }
+    
+    public Long getId(){
+        return user.getId();
+    }
+    
+    @Override
+    public String getPassword() {
+        return user.getPassword();
+    }
 
-  public Long getId() {
-    return user.getId();
-  }
+    @Override
+    public String getUsername() {
+        // フリマアプリではログインIDとしてメールアドレスを使用します
+        return user.getEmail();
+    }
 
-  @Override
-  public String getPassword() {
-    return user.getPassword();
-  }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-  @Override
-  public String getUsername() {
-    // フリマアプリではログインIDとしてメールアドレスを使用します
-    return user.getEmail();
-  }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-  @Override
-  public boolean isAccountNonExpired() {
-    return true;
-  }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-  @Override
-  public boolean isAccountNonLocked() {
-    return true;
-  }
-
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return true;
-  }
-
-  @Override
-  public boolean isEnabled() {
-    return true;
-  }
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

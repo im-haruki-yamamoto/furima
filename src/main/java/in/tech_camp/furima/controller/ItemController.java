@@ -1,6 +1,7 @@
 package in.tech_camp.furima.controller;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import in.tech_camp.furima.dto.ItemResponseDto;
 import in.tech_camp.furima.enums.Category;
 import in.tech_camp.furima.enums.Condition;
 import in.tech_camp.furima.enums.DeliveryFeeType;
@@ -32,14 +34,39 @@ public class ItemController {
 
   private final ItemService itemService;
 
+  // 商品詳細画面表示
+  @GetMapping("/{itemId}")
+  public String showItem(
+      @PathVariable("itemId") Long itemId,
+      @AuthenticationPrincipal CustomUserDetails userDetails,
+      Model model) {
+    try {
+      ItemResponseDto item = itemService.findById(itemId);
+
+      boolean isOwner = false;
+      if (userDetails != null && item.getUserId() != null) {
+        isOwner = Objects.equals(item.getUserId(), userDetails.getId());
+      }
+
+      model.addAttribute("item", item);
+      model.addAttribute("isOwner", isOwner);
+
+      return "items/show";
+    } catch (Exception e) {
+      System.out.println("エラー：" + e.getMessage());
+      return "redirect:/";
+    }
+  }
+
+  // 商品編集画面表示
   @GetMapping("/{itemId}/edit")
   public String showEditForm(
-      @PathVariable Long itemId,
-      @AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+      @PathVariable("itemId") Long itemId,
+      @AuthenticationPrincipal CustomUserDetails userDetails,
+      Model model) {
 
     try {
-      ItemEditForm itemEditForm = itemService.getItemForEdit(itemId,
-          userDetails.getId());
+      ItemEditForm itemEditForm = itemService.getItemForEdit(itemId, userDetails.getId());
       model.addAttribute("itemForm", itemEditForm);
 
       addEnumAttributesToModel(model);
@@ -50,10 +77,10 @@ public class ItemController {
     }
   }
 
-  // 編集実行
+  // 商品編集実行
   @PostMapping("/{itemId}/update")
   public String updateItem(
-      @PathVariable Long itemId,
+      @PathVariable("itemId") Long itemId,
       @ModelAttribute("itemForm") @Validated ItemEditForm itemEditForm,
       BindingResult bindingResult,
       Model model,
@@ -73,6 +100,24 @@ public class ItemController {
       addEnumAttributesToModel(model);
       return "items/edit";
     } catch (ResourceNotFoundException | ForbiddenException e) {
+      return "redirect:/";
+    }
+  }
+
+  // 商品削除実行
+  @PostMapping("/{itemId}/delete")
+  public String deleteItem(
+      @PathVariable("itemId") Long itemId,
+      @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+    if (userDetails == null) {
+      return "redirect:/users/sign_in";
+    }
+    try {
+      itemService.deleteItem(itemId, userDetails.getId());
+      return "redirect:/";
+    } catch (Exception e) {
+      System.out.println("エラー：" + e.getMessage());
       return "redirect:/";
     }
   }

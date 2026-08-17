@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import in.tech_camp.furima.dto.ItemResponseDto;
 import in.tech_camp.furima.entity.ItemEntity;
 import in.tech_camp.furima.exception.ForbiddenException;
 import in.tech_camp.furima.exception.ResourceNotFoundException;
@@ -18,19 +19,30 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ItemService {
+
   private final ItemMapper itemMapper;
 
-// 商品編集
+  // 商品詳細取得
+  @Transactional(readOnly = true)
+  public ItemResponseDto findById(Long itemId) {
+    ItemEntity itemEntity = itemMapper.findById(itemId);
+    if (itemEntity == null) {
+      throw new ResourceNotFoundException("該当の商品が見つかりません: ID=" + itemId);
+    }
+    return new ItemResponseDto(itemEntity);
+  }
+
+  // 商品編集用データの取得
   @Transactional(readOnly = true)
   public ItemEditForm getItemForEdit(Long itemId, Long currentUserId) {
     ItemEntity item = findItemAndCheckOwner(itemId, currentUserId);
     return ItemConverterService.convertToEditForm(item);
   }
 
+  // 商品更新
   @Transactional
-  public void  updateItem(Long itemId, ItemEditForm itemForm, Long currentUserId) throws IOException {
+  public void updateItem(Long itemId, ItemEditForm itemForm, Long currentUserId) throws IOException {
     ItemEntity item = findItemAndCheckOwner(itemId, currentUserId);
-
 
     item.setName(itemForm.getName());
     item.setDescription(itemForm.getDescription());
@@ -50,6 +62,23 @@ public class ItemService {
     itemMapper.update(item);
   }
 
+  // 商品削除
+  @Transactional
+  public void deleteItem(Long itemId, Long currentUserId) {
+    ItemEntity item = itemMapper.findById(itemId);
+
+    if (item == null) {
+      throw new ResourceNotFoundException("該当の商品が見つかりません: ID=" + itemId);
+    }
+
+    if (item.getUser() == null || !Objects.equals(item.getUser().getId(), currentUserId)) {
+      throw new ForbiddenException("削除権限がありません");
+    }
+
+    itemMapper.deleteById(itemId);
+  }
+
+  // 所有権・売却状態の共通チェック
   private ItemEntity findItemAndCheckOwner(Long itemId, Long currentUserId) {
     ItemEntity item = itemMapper.findById(itemId);
     if (item == null) {
@@ -59,8 +88,8 @@ public class ItemService {
       throw new ForbiddenException("編集権限がありません");
     }
     if (itemMapper.isSoldOut(itemId)) {
-    throw new ForbiddenException("売却済みの商品は編集できません");
-}
+      throw new ForbiddenException("売却済みの商品は編集できません");
+    }
     return item;
   }
 }
