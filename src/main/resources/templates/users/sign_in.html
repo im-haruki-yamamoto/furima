@@ -15,7 +15,7 @@
 <div th:replace="~{shared/header :: second-header}"></div>
 
 <!-- formのactionを設定しましょう。 -->
-<form action="hoge" method="post" class="registration-main">
+<form th:action="@{/users/sign_in}" method="post" class="registration-main">
   <div class="form-wrap">
     <div class="form-header">
       <h1 class="form-header-text">
@@ -30,14 +30,14 @@
         <label class="form-text">メールアドレス</label>
         <span class="indispensable">必須</span>
       </div>
-      <input type="email" name="hoge" class="input-default" id="email" placeholder="PC・携帯どちらでも可">
+      <input type="email" name="email" class="input-default" id="email" placeholder="PC・携帯どちらでも可">
     </div>
     <div class="form-group">
       <div class="form-text-wrap">
         <label class="form-text">パスワード</label>
         <span class="indispensable">必須</span>
       </div>
-      <input type="password" name="hoge" class="input-default" id="password">
+      <input type="password" name="password" class="input-default" id="password">
     </div>
     <div class="login-btn">
       <button type="submit" class="login-red-btn">ログイン</button>

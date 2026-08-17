@@ -5,8 +5,10 @@ import lombok.Data;
 @Data
 public class ItemEntity {
 
+
   private Long id;
   private Long userId;
+
   private String name;
   private String description;
   private Integer category;
@@ -16,4 +18,6 @@ public class ItemEntity {
   private Integer untilDelivery;
   private Long price;
   private String img;
+
 }
+

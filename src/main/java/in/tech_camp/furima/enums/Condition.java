@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Condition {
+public enum Condition implements CodedEnum {
     NEW(1, "新品・未使用"),
     LIKE_NEW(2, "未使用に近い"),
     GOOD(3, "目立った傷や汚れなし"),
@@ -17,20 +17,10 @@ public enum Condition {
     private final String displayName;
 
     public static Condition fromCode(int code) {
-        for (Condition condition : Condition.values()) {
-            if (condition.getCode() == code) {
-                return condition;
-            }
-        }
-        throw new IllegalArgumentException("不正な商品状態コードです: " + code);
+        return EnumUtil.fromCode(values(), code, "商品の状態");
     }
 
     public static Condition fromDisplayName(String displayName) {
-        for (Condition condition : Condition.values()) {
-            if (condition.getDisplayName().equals(displayName)) {
-                return condition;
-            }
-        }
-        throw new IllegalArgumentException("不正な商品状態表示です: " + displayName);
+        return EnumUtil.fromDisplayName(values(), displayName, "商品の状態");
     }
 }

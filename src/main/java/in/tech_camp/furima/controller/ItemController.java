@@ -1,16 +1,21 @@
 package in.tech_camp.furima.controller;
 
 import java.io.IOException;
+import java.util.Objects;
+
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import in.tech_camp.furima.dto.ItemResponseDto;
 import in.tech_camp.furima.enums.Category;
 import in.tech_camp.furima.enums.Condition;
 import in.tech_camp.furima.enums.DeliveryFeeType;
@@ -81,5 +86,44 @@ public class ItemController {
     model.addAttribute("prefectures", PrefectureType.values());
     model.addAttribute("untilDeliveries", UntilDelivery.values());
   }
+
+      @GetMapping("/items/{itemId}")
+public String showItem(@PathVariable("itemId") Long itemId, 
+                       @AuthenticationPrincipal CustomUserDetails userDetails, 
+                       Model model) {
+    try {
+        ItemResponseDto item = itemService.findById(itemId);
+        
+        // ログインユーザーが出品者本人かどうかを判定
+        boolean isOwner = false;
+        if (userDetails != null && item.getUserId() != null) {
+    isOwner = Objects.equals(item.getUserId(), userDetails.getId());
+}
+
+        model.addAttribute("item", item);
+        model.addAttribute("isOwner", isOwner); 
+        
+        return "items/show";
+    } catch (Exception e) {
+        System.out.println("エラー：" + e.getMessage());
+        return "redirect:/";
+    }
+}
+
+    @PostMapping("/items/{itemId}/delete")
+    public String deleteItem(@PathVariable("itemId") Long itemId,
+        @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        if (userDetails == null) {
+           return "redirect:/users/sign_in";
+        }
+        try {
+            itemService.deleteItem(itemId, userDetails.getId());
+            return "redirect:/";
+        } catch (Exception e) {
+            System.out.println("エラー：" + e.getMessage());
+            return "redirect:/";
+        }
+    }
 
 }

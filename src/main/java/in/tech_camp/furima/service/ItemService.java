@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import in.tech_camp.furima.dto.ItemListDto;
+import in.tech_camp.furima.dto.ItemResponseDto;
 import in.tech_camp.furima.entity.ItemEntity;
 import in.tech_camp.furima.enums.DeliveryFeeType;
 import in.tech_camp.furima.form.ItemForm;
@@ -79,6 +80,30 @@ public class ItemService {
 
     itemRepository.insert(item);
   }
+
+    @Transactional(readOnly = true)
+    public ItemResponseDto findById(Long itemId) throws Exception {
+        ItemEntity itemEntity = itemRepository.findById(itemId);
+        if (itemEntity == null) {
+            throw new Exception("該当の商品が見つかりません");
+        }
+        return new ItemResponseDto(itemEntity);
+    }
+
+    @Transactional
+    public void deleteItem(Long itemId, Long currentUserId) throws Exception {
+        ItemEntity item = itemRepository.findById(itemId);
+
+        if (item == null) {
+            throw new Exception("該当の商品が見つかりません");
+        }
+
+        if (item.getUser() == null || !Objects.equals(item.getUser().getId(), currentUserId)) {
+            throw new Exception("削除権限がありません");
+        }
+
+        itemRepository.deleteById(itemId);
+    }
 
 
 }
