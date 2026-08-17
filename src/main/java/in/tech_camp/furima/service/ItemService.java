@@ -26,7 +26,7 @@ public class ItemService {
         if (item == null) {
             throw new Exception("該当の商品が見つかりません");
         }
-        return itemConverter.toDto(item);
+        return itemConverter.toResponseDto(item);
     }
 
     @Transactional(readOnly = true)

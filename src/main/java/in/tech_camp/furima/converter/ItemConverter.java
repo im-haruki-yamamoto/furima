@@ -13,7 +13,7 @@ import in.tech_camp.furima.enums.UntilDelivery;
 @Component
 public class ItemConverter {
 
-    public ItemResponseDto toDto(Item item) {
+    public ItemResponseDto toResponseDto(Item item) {
         if (item == null) {
             return null;
         }
