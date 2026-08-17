@@ -65,6 +65,10 @@ public class ItemController {
       @AuthenticationPrincipal CustomUserDetails userDetails,
       Model model) {
 
+        if (userDetails == null) {
+      return "redirect:/users/sign_in";
+    }
+
     try {
       ItemEditForm itemEditForm = itemService.getItemForEdit(itemId, userDetails.getId());
       model.addAttribute("itemForm", itemEditForm);
@@ -86,6 +90,10 @@ public class ItemController {
       Model model,
       @AuthenticationPrincipal CustomUserDetails userDetails) {
 
+
+        if (userDetails == null) {
+      return "redirect:/users/sign_in";
+    }
     if (bindingResult.hasErrors()) {
       addEnumAttributesToModel(model);
       return "items/edit";
@@ -105,22 +113,22 @@ public class ItemController {
   }
 
   // 商品削除実行
-  @PostMapping("/{itemId}/delete")
-  public String deleteItem(
-      @PathVariable("itemId") Long itemId,
-      @AuthenticationPrincipal CustomUserDetails userDetails) {
+  // @PostMapping("/{itemId}/delete")
+  // public String deleteItem(
+  //     @PathVariable("itemId") Long itemId,
+  //     @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-    if (userDetails == null) {
-      return "redirect:/users/sign_in";
-    }
-    try {
-      itemService.deleteItem(itemId, userDetails.getId());
-      return "redirect:/";
-    } catch (Exception e) {
-      System.out.println("エラー：" + e.getMessage());
-      return "redirect:/";
-    }
-  }
+  //   if (userDetails == null) {
+  //     return "redirect:/users/sign_in";
+  //   }
+  //   try {
+  //     itemService.deleteItem(itemId, userDetails.getId());
+  //     return "redirect:/";
+  //   } catch (Exception e) {
+  //     System.out.println("エラー：" + e.getMessage());
+  //     return "redirect:/";
+  //   }
+  // }
 
   private void addEnumAttributesToModel(Model model) {
     model.addAttribute("categories", Category.values());
