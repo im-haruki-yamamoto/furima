@@ -15,28 +15,29 @@ import org.springframework.web.multipart.MultipartFile;
 
 import in.tech_camp.furima.dto.ItemListDto;
 import in.tech_camp.furima.dto.ItemResponseDto;
-import in.tech_camp.furima.entity.ItemEntity;
-import in.tech_camp.furima.entity.UserEntity;
+import in.tech_camp.furima.entity.Item;
+import in.tech_camp.furima.entity.User;
 import in.tech_camp.furima.enums.DeliveryFeeType;
 import in.tech_camp.furima.form.ItemForm;
-import in.tech_camp.furima.repository.ItemRepository;
-import in.tech_camp.furima.repository.UserRepository;
+import in.tech_camp.furima.mapper.ItemMapper;
+import in.tech_camp.furima.mapper.UserMapper;
 
 @Service
 public class ItemService {
 
-    private final ItemRepository itemRepository;
-    private final UserRepository userRepository;
+    private final ItemMapper itemMapper;
+    private final UserMapper userMapper;
 
-    public ItemService(ItemRepository itemRepository, UserRepository userRepository) {
-        this.itemRepository = itemRepository;
-        this.userRepository = userRepository;
+    public ItemService(ItemMapper itemmapper, UserMapper usermapper) {
+        this.itemMapper = itemmapper;
+        this.userMapper = usermapper;
     }
 
     // 商品一覧表示機能
+    @Transactional(readOnly = true)
     public List<ItemListDto> allItem() {
 
-        List<ItemListDto> items = itemRepository.findAll()
+        List<ItemListDto> items = itemMapper.findAll()
             .stream().map(item -> {
                 ItemListDto dto = new ItemListDto();
                 dto.setId(item.getId());
@@ -71,7 +72,7 @@ public class ItemService {
             Files.copy(imgFile.getInputStream(), imagePath);
         }
 
-        ItemEntity item = new ItemEntity();
+        Item item = new Item();
         item.setImg(imageName);
         item.setUserId(userId);
         item.setName(form.getName());
@@ -83,19 +84,27 @@ public class ItemService {
         item.setUntilDelivery(form.getUntilDelivery());
         item.setPrice(form.getPrice());
 
-        itemRepository.insert(item);
+        itemMapper.insert(item);
     }
 
+    // 商品詳細取得
     @Transactional(readOnly = true)
     public ItemResponseDto findById(Long itemId) throws Exception {
         Item item = itemMapper.findById(itemId);
         if (item == null) {
             throw new Exception("該当の商品が見つかりません");
         }
-        UserEntity userEntity = userRepository.findById(itemEntity.getUserId());
-        return new ItemResponseDto(itemEntity, userEntity);
+        User user = userMapper.findById(item.getUserId());
+        return new ItemResponseDto(item, user);
     }
 
+    // 売却済み判定機能
+    @Transactional(readOnly = true)
+    public boolean isSold(Long itemId) {
+        return itemMapper.isSoldOut(itemId);
+    }
+
+    // 商品削除機能
     @Transactional
     public void deleteItem(Long itemId, Long currentUserId) throws Exception {
         Item item = itemMapper.findById(itemId);

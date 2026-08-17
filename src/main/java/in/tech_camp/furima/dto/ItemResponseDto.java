@@ -1,15 +1,19 @@
 package in.tech_camp.furima.dto;
 
-import in.tech_camp.furima.entity.ItemEntity;
-import in.tech_camp.furima.entity.UserEntity;
+import in.tech_camp.furima.entity.Item;
+import in.tech_camp.furima.entity.User;
 import in.tech_camp.furima.enums.Category;
 import in.tech_camp.furima.enums.Condition;
 import in.tech_camp.furima.enums.DeliveryFeeType;
 import in.tech_camp.furima.enums.PrefectureType;
 import in.tech_camp.furima.enums.UntilDelivery;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ItemResponseDto {
   private Long id;
   private String name;
@@ -24,16 +28,13 @@ public class ItemResponseDto {
   private Long userId;
   private String userNickname;
 
-  public ItemResponseDto(ItemEntity item, UserEntity user) {
+  public ItemResponseDto(Item item, User user) {
     this.id = item.getId();
     this.name = item.getName();
     this.description = item.getDescription();
     this.price = item.getPrice();
     this.img = item.getImg();
-    
-
     this.userId = item.getUserId();
-    
 
     if (user != null) {
       this.userNickname = user.getNickname();

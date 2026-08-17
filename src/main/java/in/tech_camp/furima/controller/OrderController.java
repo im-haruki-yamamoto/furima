@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import in.tech_camp.furima.custom_user.CustomUserDetail;
 import in.tech_camp.furima.entity.Item;
-import in.tech_camp.furima.enums.Prefecture;
+import in.tech_camp.furima.enums.PrefectureType;
 import in.tech_camp.furima.form.OrderForm;
 import in.tech_camp.furima.mapper.ItemMapper;
 import in.tech_camp.furima.service.OrderService;
@@ -59,7 +59,7 @@ public class OrderController {
 
         model.addAttribute("userId", currentUserId);
         model.addAttribute("item", item);
-        model.addAttribute("prefectures", Prefecture.values());
+        model.addAttribute("prefectures", PrefectureType.values());
         model.addAttribute("payjpPublicKey", payjpPublicKey);
 
         return "orders/index";
@@ -91,7 +91,7 @@ public class OrderController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("item", item);
-            model.addAttribute("prefectures", Prefecture.values());
+            model.addAttribute("prefectures", PrefectureType.values());
             model.addAttribute("payjpPublicKey", payjpPublicKey);
             return "orders/index";
         }
@@ -101,7 +101,7 @@ public class OrderController {
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("item", item);
-            model.addAttribute("prefectures", Prefecture.values());
+            model.addAttribute("prefectures", PrefectureType.values());
             model.addAttribute("payjpPublicKey", payjpPublicKey);
             model.addAttribute("paymentError", "決済処理に失敗しました。カード情報をご確認ください。");
             return "orders/index";

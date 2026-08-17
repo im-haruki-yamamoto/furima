@@ -8,5 +8,6 @@ CREATE TABLE IF NOT EXISTS address (
     phone_number VARCHAR(255) NOT NULL,
     order_id BIGINT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_address_orders FOREIGN KEY (order_id) REFERENCES orders (id) ON DELETE CASCADE
 );
