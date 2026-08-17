@@ -20,9 +20,27 @@
       <li><a href="#" class="brand-list">ブランド</a></li>
     </ul>
     <ul class="lists-right">
-      <!-- Spring Securityを導入できたら、ログインの有無で表示が変わるように分岐しましょう -->
-      <li><a href="#" class="login">ログイン</a></li>
-      <li><a href="#" class="sign-up">新規登録</a></li>
+      <!-- ログインしている場合 -->
+      <th:block sec:authorize="isAuthenticated()">
+        <li>
+          <a href="#" class="user-nickname" 
+             th:text="${#authentication.principal.class.simpleName == 'CustomUserDetails' ? #authentication.principal.user.nickname : #authentication.name}">
+            ユーザー名
+          </a>
+        </li>
+        <li>
+          <!-- Spring Security のログアウトは POST 送信が基本 -->
+          <form th:action="@{/logout}" method="post" style="display: inline;">
+            <button type="submit" class="logout" style="background: none; border: none; padding: 0; font: inherit; cursor: pointer;">ログアウト</button>
+          </form>
+        </li>
+      </th:block>
+
+      <!-- ログインしていない場合 -->
+      <th:block sec:authorize="!isAuthenticated()">
+        <li><a th:href="@{/users/sign_in}" class="login">ログイン</a></li>
+        <li><a th:href="@{/users/sign_up}" class="sign-up">新規登録</a></li>
+      </th:block>
     </ul>
   </div>
 </header>
