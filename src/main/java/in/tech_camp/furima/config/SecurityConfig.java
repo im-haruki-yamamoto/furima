@@ -1,11 +1,10 @@
 package in.tech_camp.furima.config;
 
-import org.springframework.http.HttpMethod;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,8 +24,18 @@ public class SecurityConfig {
                 .formLogin(login -> login
                         .loginProcessingUrl("/users/sign_in")
                         .loginPage("/users/sign_in")
-                        .defaultSuccessUrl("/", true)
-                        .failureUrl("/users/sign_in?error")
+                        .successHandler((request, response, authentication) -> {
+                            System.out.println("========================================");
+                            System.out.println("【ログイン成功】 User: " + authentication.getName());
+                            System.out.println("========================================");
+                            response.sendRedirect("/");
+                        })
+                        .failureHandler((request, response, exception) -> {
+                            System.out.println("========================================");
+                            System.out.println("【ログイン失敗】 原因: " + exception.getMessage());
+                            System.out.println("========================================");
+                            response.sendRedirect("/users/sign_in?error");
+                        })
                         .usernameParameter("email")
                         .permitAll())
                 .logout(logout -> logout

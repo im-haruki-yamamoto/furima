@@ -1,5 +1,6 @@
-package in.tech_camp.furima.security;
+package in.tech_camp.furima.custom_user;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -7,31 +8,31 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import in.tech_camp.furima.entity.UserEntity;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
-public class CustomUserDetails implements UserDetails {
+@Getter
+public class CustomUserDetail implements UserDetails, Serializable {
+    private static final long serialVersionUID = 2;
 
     private final UserEntity user;
 
-    public CustomUserDetails(UserEntity user) {
+    public CustomUserDetail(UserEntity user) {
         this.user = user;
     }
 
-
-    public UserEntity getUser() {
-        return user;
+    public Long getId() {
+        return user.getId();
     }
-    
+
+    public String getNickname() {
+        return user.getNickname();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
     }
-    
-    public Long getId(){
-        return user.getId();
-    }
-    
+
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -39,7 +40,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        // フリマアプリではログインIDとしてメールアドレスを使用します
         return user.getEmail();
     }
 

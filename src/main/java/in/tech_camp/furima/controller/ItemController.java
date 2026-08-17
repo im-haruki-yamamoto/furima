@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import in.tech_camp.furima.custom_user.CustomUserDetail;
 import in.tech_camp.furima.dto.ItemResponseDto;
 import in.tech_camp.furima.enums.Category;
 import in.tech_camp.furima.enums.Condition;
@@ -23,7 +24,6 @@ import in.tech_camp.furima.enums.UntilDelivery;
 import in.tech_camp.furima.exception.ForbiddenException;
 import in.tech_camp.furima.exception.ResourceNotFoundException;
 import in.tech_camp.furima.form.ItemEditForm;
-import in.tech_camp.furima.security.CustomUserDetails;
 import in.tech_camp.furima.service.ItemService;
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +38,7 @@ public class ItemController {
   @GetMapping("/{itemId}")
   public String showItem(
       @PathVariable("itemId") Long itemId,
-      @AuthenticationPrincipal CustomUserDetails userDetails,
+      @AuthenticationPrincipal CustomUserDetail userDetails,
       Model model) {
     try {
       ItemResponseDto item = itemService.findById(itemId);
@@ -62,12 +62,10 @@ public class ItemController {
   @GetMapping("/{itemId}/edit")
   public String showEditForm(
       @PathVariable("itemId") Long itemId,
-      @AuthenticationPrincipal CustomUserDetails userDetails,
+      @AuthenticationPrincipal CustomUserDetail userDetails,
       Model model) {
 
-        if (userDetails == null) {
-      return "redirect:/users/sign_in";
-    }
+
 
     try {
       ItemEditForm itemEditForm = itemService.getItemForEdit(itemId, userDetails.getId());
@@ -88,12 +86,13 @@ public class ItemController {
       @ModelAttribute("itemForm") @Validated ItemEditForm itemEditForm,
       BindingResult bindingResult,
       Model model,
-      @AuthenticationPrincipal CustomUserDetails userDetails) {
+      @AuthenticationPrincipal CustomUserDetail userDetails) {
 
 
-        if (userDetails == null) {
-      return "redirect:/users/sign_in";
-    }
+    //     if (userDetails == null) {
+    //   return "redirect:/users/sign_in";
+    // }
+
     if (bindingResult.hasErrors()) {
       addEnumAttributesToModel(model);
       return "items/edit";

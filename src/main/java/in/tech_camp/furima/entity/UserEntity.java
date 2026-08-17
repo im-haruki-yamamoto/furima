@@ -1,10 +1,11 @@
 package in.tech_camp.furima.entity;
 
+import java.io.Serializable;
 import lombok.Data;
-import java.time.LocalDate;
 
 @Data
-public class UserEntity {
+public class UserEntity implements Serializable {
+    private static final long serialVersionUID = 2;
     private Long id;
     private String nickname;
     private String email;
@@ -13,5 +14,5 @@ public class UserEntity {
     private String firstName;
     private String lastNameKana;
     private String firstNameKana;
-    private LocalDate birthDate;
+    private java.time.LocalDate birthDate;
 }

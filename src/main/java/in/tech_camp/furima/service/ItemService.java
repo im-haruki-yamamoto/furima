@@ -63,20 +63,20 @@ public class ItemService {
   }
 
   // 商品削除
-  @Transactional
-  public void deleteItem(Long itemId, Long currentUserId) {
-    ItemEntity item = itemMapper.findById(itemId);
+  // @Transactional
+  // public void deleteItem(Long itemId, Long currentUserId) {
+  //   ItemEntity item = itemMapper.findById(itemId);
 
-    if (item == null) {
-      throw new ResourceNotFoundException("該当の商品が見つかりません: ID=" + itemId);
-    }
+  //   if (item == null) {
+  //     throw new ResourceNotFoundException("該当の商品が見つかりません: ID=" + itemId);
+  //   }
 
-    if (item.getUser() == null || !Objects.equals(item.getUser().getId(), currentUserId)) {
-      throw new ForbiddenException("削除権限がありません");
-    }
+  //   if (item.getUser() == null || !Objects.equals(item.getUser().getId(), currentUserId)) {
+  //     throw new ForbiddenException("削除権限がありません");
+  //   }
 
-    itemMapper.deleteById(itemId);
-  }
+  //   itemMapper.deleteById(itemId);
+  // }
 
   // 所有権・売却状態の共通チェック
   private ItemEntity findItemAndCheckOwner(Long itemId, Long currentUserId) {
@@ -84,7 +84,7 @@ public class ItemService {
     if (item == null) {
       throw new ResourceNotFoundException("該当の商品が見つかりません: ID=" + itemId);
     }
-    if (item.getUser() == null || !Objects.equals(item.getUser().getId(), currentUserId)) {
+    if (item.getUserId() == null || !Objects.equals(item.getUserId(), currentUserId)) {
       throw new ForbiddenException("編集権限がありません");
     }
     if (itemMapper.isSoldOut(itemId)) {
