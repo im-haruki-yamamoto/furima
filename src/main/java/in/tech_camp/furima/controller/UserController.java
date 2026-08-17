@@ -1,9 +1,5 @@
 package in.tech_camp.furima.controller;
 
-import in.tech_camp.furima.dto.UserDto;
-import in.tech_camp.furima.form.RegisterForm;
-import in.tech_camp.furima.service.UserService;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import in.tech_camp.furima.dto.UserDto;
+import in.tech_camp.furima.form.RegisterForm;
+import in.tech_camp.furima.service.UserService;
 
 @Controller
 @RequestMapping("/users")

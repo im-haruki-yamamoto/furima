@@ -39,4 +39,17 @@ out/
 ### macOS ###
 .DS_Store
 
+# Windowsの代替データストリーム(Zone.Identifier)を除外
 *:Zone.Identifier
+*Zone.Identifier*
+
+# macOSの不要メタデータを除外
+.DS_Store
+*.DS_Store
+
+# アップロードされた画像ファイルを除外
+/uploads/*
+!/uploads/.gitkeep
+
+src/main/resources/application.properties
+**/application.properties
