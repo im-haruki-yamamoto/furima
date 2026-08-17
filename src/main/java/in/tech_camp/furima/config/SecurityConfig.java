@@ -18,22 +18,19 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                       .requestMatchers("/css/**", "/images/**", "/", "/users/sign_up", "/users/sign_in", "/error").permitAll()
-                       .anyRequest().authenticated())
+                        .requestMatchers("/css/**", "/images/**", "/", "/users/sign_up", "/users/sign_in", "/error")
+                        .permitAll()
+                        .anyRequest().authenticated())
 
                 .formLogin(login -> login
                         .loginProcessingUrl("/users/sign_in")
                         .loginPage("/users/sign_in")
                         .successHandler((request, response, authentication) -> {
-                            System.out.println("========================================");
-                            System.out.println("【ログイン成功】 User: " + authentication.getName());
-                            System.out.println("========================================");
+
                             response.sendRedirect("/");
                         })
                         .failureHandler((request, response, exception) -> {
-                            System.out.println("========================================");
-                            System.out.println("【ログイン失敗】 原因: " + exception.getMessage());
-                            System.out.println("========================================");
+
                             response.sendRedirect("/users/sign_in?error");
                         })
                         .usernameParameter("email")
@@ -43,6 +40,7 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/"));
         return http.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
