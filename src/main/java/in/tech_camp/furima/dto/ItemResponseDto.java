@@ -29,10 +29,7 @@ public class ItemResponseDto {
     this.description = item.getDescription();
     this.price = item.getPrice();
     this.img = item.getImg();
-    if (item.getUser() != null) {
-      this.userId = item.getUser().getId();
-      this.userNickname = item.getUser().getNickname();
-    }
+    this.userId = item.getUserId();
 
     this.categoryText = Category.fromCode(item.getCategory()).getDisplayName();
     this.deliveryFeeText = DeliveryFeeType.fromCode(item.getDeliveryFee()).getDisplayName();

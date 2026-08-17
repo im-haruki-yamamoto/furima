@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class Item {
     private Long id;
+    private Long userId;
     private String name;
     private String description;
     private Integer category;
@@ -14,10 +15,4 @@ public class Item {
     private Integer untilDelivery;
     private Long price;
     private String img;
-
-    private User user;
-
-    public Long getUserId() {
-        return user != null ? user.getId() : null;
-    }
 }

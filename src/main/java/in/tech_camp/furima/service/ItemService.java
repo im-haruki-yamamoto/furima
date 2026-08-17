@@ -41,7 +41,7 @@ public class ItemService {
             throw new Exception("該当の商品が見つかりません");
         }
 
-        if (item.getUser() == null || !Objects.equals(item.getUser().getId(), currentUserId)) {
+        if (item.getUserId() == null || !Objects.equals(item.getUserId(), currentUserId)) {
             throw new Exception("削除権限がありません");
         }
 
