@@ -23,6 +23,7 @@ public class ItemResponseDto {
     private Long price;
     private String img;
     private Long userId;
+    private String userNickname;
 
     public ItemResponseDto(ItemEntity item) {
         this.id = item.getId();
@@ -31,6 +32,7 @@ public class ItemResponseDto {
         this.price = item.getPrice();
         this.img = item.getImg();
         this.userId = item.getUserId();
+        this.userNickname = item.getUserNickname();
 
         if (item.getCategory() != null) {
             this.categoryText = Category.fromCode(item.getCategory()).getDisplayName();

@@ -1,35 +1,31 @@
 package in.tech_camp.furima.custom_user;
 
-import in.tech_camp.furima.entity.UserEntity;
-import in.tech_camp.furima.repository.UserRepository;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import in.tech_camp.furima.entity.UserEntity;
+import in.tech_camp.furima.mapper.UserMapper;
+
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserMapper userRepository;
 
-    public CustomUserDetailService(UserRepository userRepository) {
+    public CustomUserDetailService(UserMapper userRepository) {
         this.userRepository = userRepository;
     }
 
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // UserRepositoryを使って、入力されたメールアドレスからユーザーを検索
-        UserEntity userEntity = userRepository.findByEmail(email);
+        UserEntity user = userRepository.findByEmail(email);
 
-        if (userEntity == null) {
+        if (user == null) {
             throw new UsernameNotFoundException("ユーザーが見つかりません");
         }
 
-        // 見つかったユーザー情報をSpring Securityが理解できる形式(UserDetails)に変換して返す
-        return User.builder()
-                .username(userEntity.getEmail())
-                .password(userEntity.getPassword()) // 暗号化されたパスワードを渡す
-                .roles("USER")
-                .build();
+        // 自作の CustomUserDetail に User を包んで返します
+        return new CustomUserDetail(user);
     }
 }

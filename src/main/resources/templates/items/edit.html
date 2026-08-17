@@ -50,11 +50,11 @@
           <div class="form">
             <div class="weight-bold-text">カテゴリー <span class="indispensable">必須</span></div>
             <select th:field="*{category}" class="select-box">
-              <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+              <option th:each="category : ${categories}" th:value="${category.code}" th:text="${category.displayName}"></option>
             </select>
             <div class="weight-bold-text">商品の状態 <span class="indispensable">必須</span></div>
             <select th:field="*{condition}" class="select-box">
-              <option th:each="condition : ${conditions}" th:value="${condition.id}" th:text="${condition.name}"></option>
+              <option th:each="condition : ${conditions}" th:value="${condition.code}" th:text="${condition.displayName}"></option>
             </select>
           </div>
         </div>
@@ -65,15 +65,15 @@
           <div class="form">
             <div class="weight-bold-text">配送料の負担 <span class="indispensable">必須</span></div>
             <select th:field="*{deliveryFee}" class="select-box">
-              <option th:each="fee : ${deliveryFees}" th:value="${fee.id}" th:text="${fee.name}"></option>
+              <option th:each="fee : ${deliveryFees}" th:value="${fee.code}" th:text="${fee.displayName}"></option>
             </select>
             <div class="weight-bold-text">発送元の地域 <span class="indispensable">必須</span></div>
             <select th:field="*{prefecture}" class="select-box">
-              <option th:each="pref : ${prefectures}" th:value="${pref.id}" th:text="${pref.name}"></option>
+              <option th:each="pref : ${prefectures}" th:value="${pref.code}" th:text="${pref.displayName}"></option>
             </select>
             <div class="weight-bold-text">発送までの日数 <span class="indispensable">必須</span></div>
             <select th:field="*{untilDelivery}" class="select-box">
-              <option th:each="until : ${untilDeliveries}" th:value="${until.id}" th:text="${until.name}"></option>
+              <option th:each="until : ${untilDeliveries}" th:value="${until.code}" th:text="${until.displayName}"></option>
             </select>
           </div>
         </div>

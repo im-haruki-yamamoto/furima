@@ -24,7 +24,7 @@ public interface ItemMapper {
   @Select("""
       SELECT i.id, i.img, i.name, i.price, i.delivery_fee, b.item_id 
       FROM items i
-      LEFT JOIN buys b ON i.id = b.item_id
+      LEFT JOIN orders b ON i.id = b.item_id
       ORDER BY i.id DESC
       """)
   List<ItemQueryResult> findAll();
@@ -33,8 +33,13 @@ public interface ItemMapper {
   @Select("SELECT COUNT(*) > 0 FROM orders WHERE item_id = #{itemId}")
   boolean isSoldOut(Long itemId);
 
-  // 商品1件取得
-  @Select("SELECT * FROM items WHERE id = #{itemId}")
+  // 商品1件取得（usersテーブルをJOINしてニックネームも取得）
+  @Select("""
+      SELECT i.*, u.nickname AS user_nickname
+      FROM items i
+      JOIN users u ON i.user_id = u.id
+      WHERE i.id = #{itemId}
+      """)
   ItemEntity findById(Long itemId);
 
   // 更新

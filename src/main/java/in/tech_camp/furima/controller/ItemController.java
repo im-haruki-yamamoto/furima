@@ -51,12 +51,23 @@ public class ItemController {
   // 商品出品実行
   @PostMapping("/items")
   public String createItem(
-      @ModelAttribute @Validated ItemForm itemForm,
+      @ModelAttribute("itemForm") @Validated ItemForm itemForm, // ★ "itemForm" を明示指定
       BindingResult bindingResult,
       Model model,
       @AuthenticationPrincipal CustomUserDetail userDetails) {
 
+        org.springframework.security.core.Authentication auth = 
+        org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+    
+    System.out.println("========================================");
+    System.out.println("【DEBUG】 Authentication: " + auth);
+    if (auth != null && auth.getPrincipal() != null) {
+        System.out.println("【DEBUG】 Principal クラス名: " + auth.getPrincipal().getClass().getName());
+    }
+    System.out.println("========================================");
+
     if (userDetails == null) {
+      System.out.println("【出品エラー】未ログイン状態です");
       return "redirect:/users/sign_in";
     }
 
@@ -64,15 +75,19 @@ public class ItemController {
       bindingResult.rejectValue("img", "error.itemForm", "出品画像を選択してください");
     }
 
+    // ★ バリデーションエラー発生時にターミナルへ詳細ログを出力
     if (bindingResult.hasErrors()) {
+      System.out.println("【出品エラー】入力内容に不備があります:");
+      bindingResult.getAllErrors().forEach(error -> System.out.println(" - " + error.getDefaultMessage()));
       addEnumAttributesToModel(model);
       return "items/new";
     }
 
     try {
       itemService.saveItem(itemForm, userDetails.getId());
-    } catch (IOException e) {
+    } catch (Exception e) { // ★ Exception全体をキャッチしてエラーログ出力
       e.printStackTrace();
+      System.out.println("【出品エラー】DB/ファイル保存処理で例外発生: " + e.getMessage());
       bindingResult.rejectValue("img", "error.itemForm", "画像の保存中にエラーが発生しました");
       addEnumAttributesToModel(model);
       return "items/new";

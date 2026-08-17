@@ -15,6 +15,7 @@ public class ItemEntity {
   private Integer untilDelivery;
   private Long price;
   private String img;
+  private String userNickname;
 
 }
 
