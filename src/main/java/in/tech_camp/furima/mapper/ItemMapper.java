@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import in.tech_camp.furima.dto.ItemQueryResult;
@@ -54,8 +55,9 @@ public interface ItemMapper {
       """)
   Item findById(Long id);
 
+
   // 商品削除
-  @Delete("DELETE FROM items WHERE id = #{id}")
-  void deleteById(Long id);
+  @Delete("DELETE FROM items WHERE id = #{itemId}")
+  void deleteById(@Param("itemId") Long id);
 
 }
