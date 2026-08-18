@@ -56,13 +56,13 @@ public class ItemController {
       Model model,
       @AuthenticationPrincipal CustomUserDetail userDetails) {
 
-        org.springframework.security.core.Authentication auth = 
-        org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
-    
+    org.springframework.security.core.Authentication auth = org.springframework.security.core.context.SecurityContextHolder
+        .getContext().getAuthentication();
+
     System.out.println("========================================");
     System.out.println("【DEBUG】 Authentication: " + auth);
     if (auth != null && auth.getPrincipal() != null) {
-        System.out.println("【DEBUG】 Principal クラス名: " + auth.getPrincipal().getClass().getName());
+      System.out.println("【DEBUG】 Principal クラス名: " + auth.getPrincipal().getClass().getName());
     }
     System.out.println("========================================");
 

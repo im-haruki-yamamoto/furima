@@ -1,17 +1,19 @@
 package in.tech_camp.furima.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class ItemQueryResult {
 
   private Long id;
   private String img;
   private String name;
   private Long price;
-  private int deliveryFee;
+  private Integer deliveryFee;
   private Long itemId;
 
 }
