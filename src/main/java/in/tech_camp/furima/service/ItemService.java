@@ -93,6 +93,7 @@ public class ItemService {
         Item item = findItemAndCheckOwner(itemId, currentUserId);
 
         ItemEditForm form = new ItemEditForm();
+        form.setId(item.getId());
         form.setName(item.getName());
         form.setDescription(item.getDescription());
         form.setCategory(item.getCategory());

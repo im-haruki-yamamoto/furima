@@ -26,6 +26,7 @@ public class ItemResponseDto {
     private Long price;
     private String img;
     private Long userId;
+    private String userNickname;
 
     public ItemResponseDto(Item item, User user) {
         this.id = item.getId();
@@ -35,6 +36,9 @@ public class ItemResponseDto {
         this.img = item.getImg();
         this.userId = item.getUserId();
 
+        if (user != null) {
+            this.userNickname = user.getNickname();
+        }
         if (item.getCategory() != null) {
             this.categoryText = Category.fromCode(item.getCategory()).getDisplayName();
         }
