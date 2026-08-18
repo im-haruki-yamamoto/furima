@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import in.tech_camp.furima.dto.UserDto;
 import in.tech_camp.furima.form.RegisterForm;
 import in.tech_camp.furima.service.UserService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/users")
@@ -35,8 +37,9 @@ public class UserController {
 
     @PostMapping("/sign_up")
     public String registerUser(@Validated @ModelAttribute("userForm") RegisterForm form,
-            BindingResult bindingResult,
-            Model model) {
+                               BindingResult bindingResult,
+                               Model model,
+                               HttpServletRequest request) {
         // パスワード一致チェック
         if (form.getPassword() != null && !form.getPassword().equals(form.getPasswordConfirmation())) {
             bindingResult.rejectValue("passwordConfirmation", "error.passwordConfirmation", "パスワードと一致しません");
@@ -57,6 +60,16 @@ public class UserController {
         // FormをDTOに変換してServiceに渡す
         UserDto dto = form.toDto();
         userService.register(dto);
+
+        // ★ 新規登録後にそのままログイン状態にする処理
+        try {
+            // ログイン処理を行う
+            request.login(form.getEmail(), form.getPassword());
+        } catch (ServletException e) {
+            e.printStackTrace();
+            // 万が一自動ログインに失敗した場合はログイン画面へリダイレクト
+            return "redirect:/users/sign_in";
+        }
         return "redirect:/";
     }
 
