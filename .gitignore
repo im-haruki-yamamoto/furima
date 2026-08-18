@@ -39,8 +39,8 @@ out/
 ### macOS ###
 .DS_Store
 
-# Windowsの代替データストリーム(Zone.Identifier)を除外
-*:Zone.Identifier
+
+>>>>>>> a60203edd2ade1e89c9a152202b4b595e90fd709
 *Zone.Identifier*
 
 # macOSの不要メタデータを除外

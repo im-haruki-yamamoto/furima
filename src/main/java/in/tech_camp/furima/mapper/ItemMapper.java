@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-
+import org.apache.ibatis.annotations.Param;
 import in.tech_camp.furima.dto.ItemQueryResult;
 import in.tech_camp.furima.entity.ItemEntity;
 
@@ -58,7 +58,16 @@ public interface ItemMapper {
       """)
   void update(ItemEntity item);
 
-  // 削除
-  @Delete("DELETE FROM items WHERE id = #{id}")
-  void deleteById(Long id);
+  // 商品削除
+  @Select("SELECT * FROM items WHERE id = #{itemId}")
+  @Results({
+      @Result(property = "deliveryFee", column = "delivery_fee"),
+      @Result(property = "untilDelivery", column = "until_delivery"),
+      @Result(property = "user", column = "user_id", one = @One(select = "in.tech_camp.furima.mapper.UserMapper.findById"))
+  })
+  ItemEntity findById(@Param("itemId") Long itemId);
+
+  @Delete("DELETE FROM items WHERE id = #{itemId}")
+  void deleteById(@Param("itemId") Long id);
+
 }
