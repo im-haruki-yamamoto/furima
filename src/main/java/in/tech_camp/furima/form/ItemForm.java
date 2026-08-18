@@ -42,5 +42,5 @@ public class ItemForm {
     @Min(value = 300, message = "販売価格は300円以上で入力してください")
     @Max(value = 9999999, message = "販売価格は9,999,999円以下で入力してください")
     private Long price;
-    
+
 }

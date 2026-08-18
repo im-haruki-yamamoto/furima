@@ -64,7 +64,6 @@ public interface ItemMapper {
   void update(Item item);
 
   // 商品削除
-  @Select("SELECT * FROM items WHERE id = #{itemId}")
   @Delete("DELETE FROM items WHERE id = #{itemId}")
   void deleteById(@Param("itemId") Long id);
 

@@ -1,7 +1,8 @@
 package in.tech_camp.furima.dto;
 
-import lombok.Data;
 import java.time.LocalDate;
+
+import lombok.Data;
 
 @Data
 public class UserDto {

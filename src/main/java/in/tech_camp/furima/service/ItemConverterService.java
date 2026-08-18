@@ -1,12 +1,12 @@
 package in.tech_camp.furima.service;
 
-import in.tech_camp.furima.entity.ItemEntity;
+import in.tech_camp.furima.entity.Item;
 import in.tech_camp.furima.form.ItemEditForm;
 
 public class ItemConverterService {
 
 
-  public static ItemEditForm convertToEditForm(ItemEntity item) {
+  public static ItemEditForm convertToEditForm(Item item) {
     if (item == null) {
       return null;
     }
