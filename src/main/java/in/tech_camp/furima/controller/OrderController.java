@@ -31,9 +31,6 @@ public class OrderController {
     @Value("${payjp.public-key:pk_test_dummy}")
     private String payjpPublicKey;
 
-    @Value("${payjp.public-key:pk_test_dummy}")
-private String publicKey;
-
     @GetMapping
     public String index(@PathVariable("itemId") Long itemId,
                         @AuthenticationPrincipal CustomUserDetail customUserDetail,
