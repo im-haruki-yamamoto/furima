@@ -1,10 +1,16 @@
 package in.tech_camp.furima.controller;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -89,6 +95,15 @@ public class OrderController {
         }
 
         if (bindingResult.hasErrors()) {
+            List<String> fieldOrder = Arrays.stream(OrderForm.class.getDeclaredFields())
+                    .map(Field::getName)
+                    .toList();
+
+            List<FieldError> sortedErrors = bindingResult.getFieldErrors().stream()
+                    .sorted(Comparator.comparingInt(error -> fieldOrder.indexOf(error.getField())))
+                    .toList();
+
+            model.addAttribute("errors", sortedErrors);
             model.addAttribute("item", item);
             model.addAttribute("prefectures", PrefectureType.values());
             model.addAttribute("payjpPublicKey", payjpPublicKey);

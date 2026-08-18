@@ -5,11 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -37,17 +34,26 @@ public interface ItemMapper {
   @Select("SELECT COUNT(*) > 0 FROM orders WHERE item_id = #{itemId}")
   boolean isSoldOut(Long itemId);
 
-  // 商品1件を取得
- @Select("SELECT * FROM items WHERE id = #{itemId}")
-    @Results({
-        @Result(property = "deliveryFee", column = "delivery_fee"),
-        @Result(property = "untilDelivery", column = "until_delivery"),
-        @Result(property = "user", column = "user_id", one = @One(select = "in.tech_camp.furima.mapper.UserMapper.findById"))
-    })
-    Item findById(@Param("itemId") Long itemId);
+  // 商品1件を取得（@One による User 取得を削除し、SQLエイリアスでマッピング）
+  @Select("""
+      SELECT 
+          id,
+          user_id AS userId,
+          name,
+          description,
+          category,
+          condition,
+          delivery_fee AS deliveryFee,
+          prefecture,
+          until_delivery AS untilDelivery,
+          price,
+          img
+      FROM items
+      WHERE id = #{itemId}
+      """)
+  Item findById(@Param("itemId") Long itemId);
 
-
-   // 更新
+  // 更新
   @Update("""
       UPDATE items SET
             name = #{name},
