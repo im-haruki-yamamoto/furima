@@ -109,8 +109,10 @@ public class ItemController {
         isOwner = Objects.equals(item.getUserId(), userDetails.getId());
       }
 
+      boolean isSold = itemService.isSold(itemId);
       model.addAttribute("item", item);
       model.addAttribute("isOwner", isOwner);
+      model.addAttribute("isSold", isSold);
 
       return "items/show";
     } catch (Exception e) {
