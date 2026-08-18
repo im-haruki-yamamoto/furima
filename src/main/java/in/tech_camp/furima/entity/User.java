@@ -18,5 +18,3 @@ public class User {
     private String firstNameKana;
     private LocalDate birthDate;
 }
-
-

@@ -27,6 +27,7 @@ public class CustomUserDetail implements UserDetails {
         return user.getId();
     }
 
+
     // ニックネームの取得
     public String getNickname() {
         return user.getNickname();
@@ -37,10 +38,12 @@ public class CustomUserDetail implements UserDetails {
         return user.getNickname();
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
     }
+
 
     @Override
     public String getPassword() {
