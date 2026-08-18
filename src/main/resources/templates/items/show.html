@@ -19,7 +19,7 @@
       <h2 class="name" th:text="${item.name}">商品名</h2>
       
       <div class="item-img-content">
-        <img th:src="${item.img}" class="item-box-img" alt="商品画像">
+        <img th:src="@{|/images/${item.img}|}" class="item-box-img" alt="商品画像">
 
         <!-- 購入判定(isSold)がある場合 -->
         <div class="sold-out" th:if="${isSold}">
@@ -36,9 +36,9 @@
         </span>
       </div>
 
-      <!-- ログイン時のボタン出し分け -->
-      <div sec:authorize="isAuthenticated()" class="item-btn-box">
-        <!-- 出品者本人の場合 -->
+      <!-- ログイン状態 かつ 未売却(isSoldがfalse) の場合のみボタンを表示 -->
+      <div sec:authorize="isAuthenticated()" th:unless="${isSold}" class="item-btn-box">
+        <!-- 出品者本人の場合：編集・削除ボタンを表示 -->
         <th:block th:if="${isOwner}">
           <a th:href="@{/items/{itemId}/edit(itemId=${item.id})}" class="item-red-btn">商品の編集</a>
           <p class="or-text">or</p>
@@ -47,7 +47,7 @@
           </form>
         </th:block>
 
-        <!-- 出品者以外の場合 -->
+        <!-- 出品者以外の場合：購入画面に進むボタンを表示 -->
         <th:block th:unless="${isOwner}">
           <a th:href="@{/items/{itemId}/orders(itemId=${item.id})}" class="item-red-btn">購入画面に進む</a>
         </th:block>

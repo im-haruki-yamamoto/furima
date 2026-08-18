@@ -7,23 +7,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import in.tech_camp.furima.dto.UserDto;
-import in.tech_camp.furima.entity.UserEntity;
-import in.tech_camp.furima.repository.UserRepository;
+import in.tech_camp.furima.entity.User;
+import in.tech_camp.furima.mapper.UserMapper;
 
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public UserService(UserMapper userMapper, PasswordEncoder passwordEncoder) {
+        this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
     public void register(UserDto dto) {
-        UserEntity user = new UserEntity();
+        User user = new User();
         user.setNickname(dto.getNickname());
         user.setEmail(dto.getEmail());
 
@@ -37,6 +37,6 @@ public class UserService {
         LocalDate birthDate = dto.getBirthDate();
         user.setBirthDate(birthDate);
 
-        userRepository.insert(user);
+        userMapper.insert(user);
     }
 }

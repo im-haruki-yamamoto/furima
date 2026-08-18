@@ -1,4 +1,4 @@
-package in.tech_camp.furima.security;
+package in.tech_camp.furima.custom_user;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -6,32 +6,42 @@ import java.util.Collections;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import in.tech_camp.furima.entity.UserEntity;
-import lombok.Data;
+import in.tech_camp.furima.entity.User;
+import lombok.Getter;
 
-@Data
-public class CustomUserDetails implements UserDetails {
+/**
+ * Spring Security がログインユーザーの情報を保持するためのクラス。
+ * DBの User を包み込んで、Spring Securityの規格（UserDetails）に適合させます。
+ */
+@Getter
+public class CustomUserDetail implements UserDetails {
 
-    private final UserEntity user;
+    private final User user;
 
-    public CustomUserDetails(UserEntity user) {
+    public CustomUserDetail(User user) {
         this.user = user;
     }
 
-
-    public UserEntity getUser() {
-        return user;
+    // ユーザーIDの取得
+    public Long getId() {
+        return user.getId();
     }
-    
+
+    // ニックネームの取得
+    public String getNickname() {
+        return user.getNickname();
+    }
+
+    // 互換性のための名前取得
+    public String getName() {
+        return user.getNickname();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
     }
-    
-    public Long getId(){
-        return user.getId();
-    }
-    
+
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -39,7 +49,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        // フリマアプリではログインIDとしてメールアドレスを使用します
         return user.getEmail();
     }
 
