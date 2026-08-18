@@ -48,7 +48,7 @@ out/
 *.DS_Store
 
 # アップロードされた画像ファイルを除外
-/uploads/*
+uploads/*
 !/uploads/.gitkeep
 
 src/main/resources/application.properties
