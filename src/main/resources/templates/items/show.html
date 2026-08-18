@@ -19,7 +19,7 @@
       <h2 class="name" th:text="${item.name}">商品名</h2>
       
       <div class="item-img-content">
-        <img th:src="@{|/images/${item.img}|}" class="item-box-img" alt="商品画像">
+        <img th:src="@{/images/{img}(img=${item.img})}" class="item-box-img" alt="商品画像">
 
         <!-- 購入判定(isSold)がある場合 -->
         <div class="sold-out" th:if="${isSold}">
@@ -61,7 +61,7 @@
         <tbody>
           <tr>
             <th class="detail-item">出品者</th>
-            <td class="detail-value" th:text="${item.userNickname != null ? item.userNickname : '不明'}">出品者名</td>
+            <td class="detail-value" th:text="${item.user.name != null ? item.user.name : '不明'}">出品者名</td>
           </tr>
           <tr>
             <th class="detail-item">カテゴリー</th>

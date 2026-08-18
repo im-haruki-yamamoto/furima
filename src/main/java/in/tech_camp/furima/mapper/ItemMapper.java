@@ -5,9 +5,13 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import in.tech_camp.furima.dto.ItemQueryResult;
 import in.tech_camp.furima.entity.Item;
@@ -34,27 +38,30 @@ public interface ItemMapper {
   boolean isSoldOut(Long itemId);
 
   // 商品1件を取得
-  @Select("""
-          SELECT
-              i.id AS id,
-              i.user_id AS userId,
-              i.name AS name,
-              i.description AS description,
-              i.category AS category,
-              i.condition AS condition,
-              i.delivery_fee AS deliveryFee,
-              i.prefecture AS prefecture,
-              i.until_delivery AS untilDelivery,
-              i.price AS price,
-              i.img AS img,
-              u.id AS "user.id",
-              u.nickname AS "user.nickname"
-          FROM items i
-          JOIN users u ON i.user_id = u.id
-          WHERE i.id = #{id}
-      """)
-  Item findById(Long id);
+ @Select("SELECT * FROM items WHERE id = #{itemId}")
+    @Results({
+        @Result(property = "deliveryFee", column = "delivery_fee"),
+        @Result(property = "untilDelivery", column = "until_delivery"),
+        @Result(property = "user", column = "user_id", one = @One(select = "in.tech_camp.furima.mapper.UserMapper.findById"))
+    })
+    Item findById(@Param("itemId") Long itemId);
 
+
+   // 更新
+  @Update("""
+      UPDATE items SET
+            name = #{name},
+            description = #{description},
+            category = #{category},
+            condition = #{condition},
+            delivery_fee = #{deliveryFee},
+            prefecture = #{prefecture},
+            until_delivery = #{untilDelivery},
+            price = #{price},
+            img = #{img}
+      WHERE id = #{id}
+      """)
+  void update(Item item);
 
   // 商品削除
   @Delete("DELETE FROM items WHERE id = #{itemId}")

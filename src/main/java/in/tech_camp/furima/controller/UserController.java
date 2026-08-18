@@ -48,13 +48,13 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             // パスワードと確認用パスワードはクリア
             List<String> errorMessages = bindingResult.getAllErrors().stream()
-            .map(DefaultMessageSourceResolvable::getDefaultMessage)
-            .collect(Collectors.toList());
-    model.addAttribute("errorMessages", errorMessages);
-    
-    form.setPassword("");
-    form.setPasswordConfirmation("");
-    return "users/sign_up";
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
+            model.addAttribute("errorMessages", errorMessages);
+
+            form.setPassword("");
+            form.setPasswordConfirmation("");
+            return "users/sign_up";
         }
 
         // FormをDTOに変換してServiceに渡す
@@ -74,7 +74,7 @@ public class UserController {
     }
 
     @GetMapping("/sign_in")
-public String showSignInForm() {
-    return "users/sign_in";
-}
+    public String showSignInForm() {
+        return "users/sign_in";
+    }
 }
