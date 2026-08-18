@@ -53,7 +53,6 @@ public class OrderController {
 
         // 自身が出品した商品 または 売却済みの商品 -> トップページへリダイレクト
         if (isSold || (itemSellerId != null && itemSellerId.equals(currentUserId))) {
-            System.out.println("--> アクセス不可のためトップページへ弾きます");
             return "redirect:/";
         }
 
